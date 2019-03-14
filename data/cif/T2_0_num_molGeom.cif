@@ -1,0 +1,18 @@
+data_global
+_chemical_name T2_skewed_0_num_molCentres.cif
+
+_cell_length_a 2
+_cell_length_b 20.025
+_cell_length_c 21
+_cell_angle_alpha 0.05
+_cell_angle_beta 90
+_cell_angle_gamma 90
+_cell_volume 1
+loop_
+_atom_site_label
+_atom_site_type_symbol
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+C1 C 0.99 0.05 0.135 1.000

@@ -1,0 +1,1464 @@
+# CIF-file generated for -223.695_T2_4_4211                      
+
+#==============================================================================
+data_global
+#==============================================================================
+
+# 0. AUDIT DETAILS
+
+_audit_creation_date                 'Nov 29 17:32:16 2016'
+_audit_creation_method               'PLATON <TABLE ACC> option' 
+_audit_update_record                
+;
+;
+
+#===============================================================================
+
+# 1. SUBMISSION DETAILS
+
+_publ_contact_author_name           # Name of author for correspondence
+;
+;
+_publ_contact_author_address        # address of author for correspondence
+;
+;
+
+_publ_contact_author_email           ?
+_publ_contact_author_fax             ?
+_publ_contact_author_phone           ?
+
+_publ_requested_journal              'Acta Crystallographica C' 
+# Publication choise FI, CI or EI for Inorganic
+#                    FM, CM or EM for Metal-organic
+#                    FO, CO or EO for Organic
+_publ_requested_category             ?
+_publ_requested_coeditor_name        ?
+
+_publ_contact_letter                # Include date of submission
+;
+Date of submission ?
+
+Please consider this CIF submission for publication as a
+Regular Structural Paper in Acta Crystallographica C. 
+;
+
+#===============================================================================
+
+# 2. PROCESSING SUMMARY (JOURNAL OFFICE ONLY)
+
+_journal_date_recd_electronic        ?
+
+_journal_date_to_coeditor            ?
+_journal_date_from_coeditor          ?
+_journal_date_accepted               ?
+
+_journal_date_printers_first         ?
+_journal_date_printers_final         ?
+_journal_date_proofs_out             ?
+_journal_date_proofs_in              ?
+
+_journal_coeditor_name               ?
+_journal_coeditor_code               ?
+_journal_coeditor_notes             
+;
+;
+
+_journal_techeditor_code             ?
+_journal_techeditor_notes           
+;
+;
+
+_journal_coden_ASTM                  ?
+_journal_name_full                   ?
+_journal_year                        ?
+_journal_volume                      ?
+_journal_issue                       ?
+_journal_page_first                  ?
+_journal_page_last                   ?
+
+
+_journal_suppl_publ_number           ?
+_journal_suppl_publ_pages            ?
+
+
+#===============================================================================
+
+# 3. TITLE AND AUTHOR LIST
+
+_publ_section_title                 
+;
+;
+_publ_section_title_footnote        
+;
+;
+
+# The loop structure below should contain the names and adresses of all
+# authors, in the required order of publication. Repeat as necessary.
+
+
+loop_
+_publ_author_name                   
+_publ_author_footnote               
+_publ_author_address                
+'?' # author name
+;   # author related footnote
+;
+;   # Address of this author
+;
+
+#===============================================================================
+
+# 4. TEXT
+
+_publ_section_synopsis              
+;
+ ?
+;
+_publ_section_abstract              
+;
+ ?
+;
+
+# Insert blank lines between paragraphs
+
+_publ_section_comment               
+;
+;
+_publ_section_exptl_prep            
+;
+ ?
+;
+_publ_section_exptl_refinement      
+;
+ ?
+;
+
+# Insert blank lines between references
+
+_publ_section_references            
+;
+ Allen, F.H. (2002).
+   Acta Cryst. B58, 380-388.
+
+ Altomare, A., Burla, M.C., Camalli, M., Cascarano, G.L., Giacovazzo, C.
+   Guagliardi, A., Moliterni, A.G.G., Polidori, G. & Spagna, R.
+   (1999) J. Appl. Cryst. 32, 115-119.
+
+ Beurskens, P.T., Beurskens, G., de Gelder, R., Garc\'ia-Granda, S.,
+ Gould, R.O., Israel, R. & Smits, J.M.M. (1999) The DIRDIF99 Program System,
+   Technical Report of the Crystallography Laboratory,
+   University of Nijmegen, The Netherlands.
+
+ Boer, J.L. de & Duisenberg, A.J.M. (1984). Acta Cryst. A40, C-410.
+
+ Boeyens, J.C.A. (1978). J.Cryst.Mol.Struct. 8, 317-320.
+
+ Cremer, D. & Pople, J.A. (1975). J. Am. Chem. Soc. 97, 1354-1358.
+
+ Duisenberg, A.J.M. (1992). J. Appl. Cryst. 25, 92-96.
+
+ Duisenberg, A.J.M., Kroon-Batenburg, L.M.J. & Schreurs, A.M.M. (2003).
+   J. Appl. Cryst. 36, 220-229.
+
+ Enraf-Nonius (1989). CAD-4 Software. Version 5. Enraf-Nonius, Delft,
+   The Netherlands.
+
+ Flack, H.D. (1983). Acta Cryst. A39, 876-881.
+
+ Hooft, R.W.W. (1998). Collect Software, Nonius B.V., Delft, The Netherlands.
+
+ LePage, Y. (1987). J. Appl. Cryst. 20, 264-269.
+
+ Mackay, A.L. (1984). Acta Cryst. A40, 165-166.
+
+ Meulenaer, J. de & Tompa, H. (1965). Acta Cryst. 19, 1014-1018.
+
+ North, A.C.T., Phillips, D.C. & Mathews, F.S. (1968).
+  Acta Cryst. A24, 351-359.
+
+ Otwinowski, Z. & Minor, W. (1997). Methods in Enzymology, Vol. 276,
+   Macromolecular Crystallography, Part A, edited by C.W. Carter &
+    R.M. Sweet, pp. 307-326. London: Academic Press.
+
+ Sheldrick, G.M. (1986). SHELXS86. University of G\"ottingen, Germany.
+
+ Sheldrick, G.M. (1993). SHELXL93. University of G\"ottingen, Germany.
+
+ Sheldrick, G.M. (1997). SHELXS97. University of G\"ottingen, Germany.
+
+ Sheldrick, G.M. (1997). SHELXL97. University of G\"ottingen, Germany.
+
+ Sluis, P. van der & Spek, A.L. (1990). Acta Cryst. A46, 194-201.
+
+ Spek, A.L. (1987). Acta Cryst. C43, 1233-1235.
+
+ Spek, A.L. (1988). J. Appl. Cryst. 21, 578-579.
+
+ Spek, A.L. (1994). Am. Crystallogr. Assoc.-Abstracts, 22, 66.
+
+ Spek, A.L. (1997). HELENA, Program for Datareduction, Utrecht
+   University, The Netherlands.
+
+ Spek, A.L. (2003). J. Appl. Cryst. 36, 7-13.
+
+ Wilson, A.J.C. (1992). Ed. International Tables for Crystallography,
+   Volume C, Kluwer Academic Publishers, Dordrecht, The Netherlands.
+;
+_publ_section_acknowledgements      
+;
+;
+_publ_section_figure_captions       
+; View of the title compound with the atom numbering scheme.
+Displacement ellipsoids for non-H atoms are drawn at the 50% probability level.
+;
+
+#===============================================================================
+
+data_-223.695_t2_4_4211              
+
+#===============================================================================
+
+# 5. CHEMICAL DATA
+
+_chemical_name_systematic           
+;
+;
+_chemical_name_common                ?
+_chemical_melting_point              ?
+_chemical_formula_moiety            
+'C23 H14 N6 O3'
+# Ex: 'C12 H16 N2 O6, H2 O' and '(Cd 2+)3, (C6 N6 Cr 3-)2, 2(H2 O)' 
+_chemical_formula_structural         ?
+_chemical_formula_sum               
+'C23 H14 N6 O3'
+_chemical_formula_iupac              ?
+_chemical_formula_weight                422.40
+_chemical_compound_source           'see text'
+
+loop_
+_atom_type_symbol                   
+_atom_type_description              
+_atom_type_scat_dispersion_real     
+_atom_type_scat_dispersion_imag     
+_atom_type_scat_source              
+ O   O    0.0106    0.0060
+ 'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
+ N   N    0.0061    0.0033
+ 'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
+ H   H    0.0000    0.0000
+ 'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
+ C   C    0.0033    0.0016
+ 'International Tables Vol C Tables 4.2.6.8 and 6.1.1.4'
+
+#===============================================================================
+
+# 6. CRYSTAL DATA
+
+_symmetry_cell_setting                  Triclinic
+_symmetry_space_group_name_Hall      'P 1'
+_symmetry_space_group_name_H-M       'P 1'
+_symmetry_Int_Tables_number                  1
+
+loop_
+_symmetry_equiv_pos_site_id         
+_symmetry_equiv_pos_as_xyz          
+   1 x,y,z                         
+
+_cell_length_a                            12.75730
+_cell_length_b                             7.49800
+_cell_length_c                            12.75910
+_cell_angle_alpha                               90
+_cell_angle_beta                           59.9998
+_cell_angle_gamma                               90
+_cell_volume                              1056.949
+_cell_formula_units_Z                    2
+_cell_measurement_temperature        ?
+_cell_measurement_reflns_used        ?
+_cell_measurement_theta_min          ?
+_cell_measurement_theta_max          ?
+_cell_special_details               
+;
+;
+
+_exptl_crystal_description          ' ?'
+_exptl_crystal_colour               ' ?'
+
+_exptl_crystal_size_max              ?
+_exptl_crystal_size_mid              ?
+_exptl_crystal_size_min              ?
+_exptl_crystal_size_rad              ?
+_exptl_crystal_density_meas          ?
+_exptl_crystal_density_diffrn            1.327
+_exptl_crystal_density_method       'Not Measured'
+_exptl_crystal_F_000                       436
+_exptl_absorpt_coefficient_mu            0.092
+_exptl_crystal_density_meas_temp     ?
+
+# Permitted for _exptl_absorpt_correction_type :
+# analytical     'analytical from crystal shape'
+#                Example: de Meulenaer&Tompa: ABST
+# cylinder       'cylindrical'
+# gaussian       'Gaussian from crystal shape'
+#                Example: PLATON/ABSG
+# integration    'integration from crystal shape'
+# multi-scan     'symmetry-related measurements'
+#                Example: SADABS, MULABS
+# none           'no absorption corr. applied'
+# numerical      'numerical from crystal shape'
+# psi-scan       'psi-scan corrections'
+#                Example: PLATON/ABSP
+# refdelf        'refined from delta-F'
+#                Example: SHELXA, 
+# sphere         'spherical'
+#                Example: PLATON/ABSS
+_exptl_absorpt_correction_type      ' ?'
+# Example: '(North et al., 1968)'
+_exptl_absorpt_process_details       ?
+_exptl_absorpt_correction_T_min      ?
+_exptl_absorpt_correction_T_max      ?
+
+#===============================================================================
+
+# 7. EXPERIMENTAL DATA
+
+_exptl_special_details              
+;
+;
+_diffrn_ambient_temperature          ?
+_diffrn_radiation_wavelength           0.71073
+_diffrn_radiation_probe              'x-ray'
+_diffrn_radiation_type               'MoK\a'
+_diffrn_radiation_source             ?
+_diffrn_radiation_monochromator      ?
+
+_diffrn_measurement_device_type      ?
+_diffrn_measurement_method           ?
+_diffrn_detector_area_resol_mean     ?
+
+# number of measured reflections (redundant set)
+_diffrn_reflns_number                ?
+_diffrn_reflns_av_R_equivalents      ?
+_diffrn_reflns_av_sigmaI/netI        ?
+_diffrn_reflns_limit_h_min           ?
+_diffrn_reflns_limit_h_max           ?
+_diffrn_reflns_limit_k_min           ?
+_diffrn_reflns_limit_k_max           ?
+_diffrn_reflns_limit_l_min           ?
+_diffrn_reflns_limit_l_max           ?
+_diffrn_reflns_theta_min             ?
+_diffrn_reflns_theta_max             ?
+_diffrn_reflns_theta_full            ?
+_diffrn_measured_fraction_theta_max  ?
+_diffrn_measured_fraction_theta_full ?
+_diffrn_reflns_reduction_process    
+;
+;
+
+# number of unique reflections
+_reflns_number_total                 ?
+# number of observed reflections (> n sig(I))
+_reflns_number_gt                    ?
+_reflns_threshold_expression          ?
+
+_computing_data_collection           ?
+_computing_cell_refinement           ?
+_computing_data_reduction            ?
+_computing_structure_solution        ?
+_computing_structure_refinement      ?
+_computing_molecular_graphics        ?
+_computing_publication_material      'PLATON (Spek, 2003)' 
+
+#===============================================================================
+
+# 8. REFINEMENT DATA
+
+_refine_special_details              ?
+_refine_ls_structure_factor_coef      ?
+_refine_ls_matrix_type                ?
+_refine_ls_weighting_scheme          ' ?'
+_refine_ls_weighting_details        
+ ?                                                                                                                      
+_atom_sites_solution_primary        ' ?'
+_atom_sites_solution_secondary      ' ?'
+_atom_sites_solution_hydrogens      ' ?'
+
+
+# Permitted for _refine_ls_hydrogen_treatment :
+# refall  - refined all H parameters
+# refxyz  - refined H coordinates only
+# refU    - refined H U only
+# noref   - no refinement of H parameters
+# constr  - H parameters constrained
+# mixed   - some constrained, some independent
+# undef   - H-atom parameters not defined
+_refine_ls_hydrogen_treatment       ' ?'
+
+_refine_ls_extinction_method         ' ?'
+_refine_ls_extinction_coef            ?                   
+_refine_ls_extinction_expression    
+ ?                                                                                                                      
+_refine_ls_abs_structure_details    
+ 'Flack H.D. (1983), Acta Cryst. A39, 876-881' 
+_refine_ls_abs_structure_Flack       ?
+
+# Permitted for _chemical_absolute_configuration:
+# Absolute configuration details
+# rm   = Det. by chiral ref. mol. with known abs.conf
+# ad   = Det. by anomalous dispersion
+# rmad = Det. by 'rm' and 'ad' 
+# syn  = Det. with reference to synthesis
+# unk  = Unknown/Arbitrary
+_chemical_absolute_configuration     ?
+
+_refine_ls_number_reflns             ?
+_refine_ls_number_parameters         ?
+_refine_ls_number_restraints                 0
+_refine_ls_number_constraints        ?
+_refine_ls_R_factor_all              ?
+_refine_ls_R_factor_gt               ?
+_refine_ls_wR_factor_ref             ?
+_refine_ls_wR_factor_gt              ?
+_refine_ls_goodness_of_fit_ref       ?
+_refine_ls_restrained_S_all          ?
+_refine_ls_shift/su_max              ?
+_refine_ls_shift/su_mean             ?
+_refine_diff_density_max             ?
+_refine_diff_density_min             ?
+_refine_diff_density_rms             ?
+
+#===============================================================================
+
+# 9. ATOMIC COORDINATES AND DISPLACEMENT PARAMETERS
+
+loop_
+_atom_site_label                    
+_atom_site_type_symbol              
+_atom_site_thermal_displace_type    
+_atom_site_fract_x                  
+_atom_site_fract_y                  
+_atom_site_fract_z                  
+_atom_site_occupancy                
+_atom_site_U_iso_or_equiv           
+_atom_site_calc_flag                
+_atom_site_refinement_flags         
+O1 O Uiso 0.18448 0.88464 0.36136 1.000 0.0500 . .                              
+O2 O Uiso 0.95416 0.88465 0.68444 1.000 0.0500 . .                              
+O3 O Uiso -0.13856 0.88465 1.45418 1.000 0.0500 . .                             
+N1 N Uiso 0.22721 0.73844 0.49703 1.000 0.0500 . .                              
+N2 N Uiso 0.77572 0.73844 0.72723 1.000 0.0500 . .                              
+N3 N Uiso -0.00293 0.73844 1.27577 1.000 0.0500 . .                             
+N4 N Uiso 0.22720 1.03084 0.49703 1.000 0.0500 . .                              
+N5 N Uiso 0.77571 1.03085 0.72723 1.000 0.0500 . .                              
+N6 N Uiso -0.00294 1.03085 1.27576 1.000 0.0500 . .                             
+C1 C Uiso 0.33327 0.71271 0.83334 1.000 0.0500 . .                              
+C2 C Uiso 0.30402 0.79126 0.74067 1.000 0.0500 . .                              
+C3 C Uiso 0.27944 0.69442 0.66274 1.000 0.0500 . .                              
+C4 C Uiso 0.25484 0.79108 0.58471 1.000 0.0500 . .                              
+C5 C Uiso 0.20948 0.88464 0.44077 1.000 0.0500 . .                              
+C6 C Uiso 0.45520 0.79126 0.80409 1.000 0.0500 . .                              
+C7 C Uiso 0.55773 0.69442 0.77950 1.000 0.0500 . .                              
+C8 C Uiso 0.66039 0.79109 0.75487 1.000 0.0500 . .                              
+C9 C Uiso 0.84972 0.88465 0.70949 1.000 0.0500 . .                              
+C10 C Uiso 0.24060 0.79125 0.95526 1.000 0.0500 . .                             
+C11 C Uiso 0.16270 0.69442 1.05779 1.000 0.0500 . .                             
+C12 C Uiso 0.08469 0.79109 1.16044 1.000 0.0500 . .                             
+C13 C Uiso -0.05918 0.88464 1.34976 1.000 0.0500 . .                            
+C14 C Uiso 0.33327 1.05657 0.83334 1.000 0.0500 . .                             
+C15 C Uiso 0.30402 0.97803 0.74067 1.000 0.0500 . .                             
+C16 C Uiso 0.27944 1.07487 0.66274 1.000 0.0500 . .                             
+C17 C Uiso 0.25483 0.97819 0.58471 1.000 0.0500 . .                             
+C18 C Uiso 0.45521 0.97803 0.80409 1.000 0.0500 . .                             
+C19 C Uiso 0.55774 1.07486 0.77950 1.000 0.0500 . .                             
+C20 C Uiso 0.66040 0.97820 0.75488 1.000 0.0500 . .                             
+C21 C Uiso 0.24059 0.97803 0.95526 1.000 0.0500 . .                             
+C22 C Uiso 0.16270 1.07487 1.05778 1.000 0.0500 . .                             
+C23 C Uiso 0.08470 0.97820 1.16044 1.000 0.0500 . .                             
+O4 O Uiso 0.81552 0.38464 0.63864 1.000 0.0500 . .                              
+O5 O Uiso 0.04584 0.38465 0.31557 1.000 0.0500 . .                              
+O6 O Uiso 1.13856 0.38465 -0.45418 1.000 0.0500 . .                             
+N7 N Uiso 0.77279 0.23844 0.50297 1.000 0.0500 . .                              
+N8 N Uiso 0.22428 0.23844 0.27277 1.000 0.0500 . .                              
+N9 N Uiso 1.00293 0.23844 -0.27576 1.000 0.0500 . .                             
+N10 N Uiso 0.77280 0.53084 0.50297 1.000 0.0500 . .                             
+N11 N Uiso 0.22428 0.53085 0.27277 1.000 0.0500 . .                             
+N12 N Uiso 1.00294 0.53084 -0.27576 1.000 0.0500 . .                            
+C24 C Uiso 0.66673 0.21271 0.16666 1.000 0.0500 . .                             
+C25 C Uiso 0.69598 0.29126 0.25933 1.000 0.0500 . .                             
+C26 C Uiso 0.72056 0.19442 0.33726 1.000 0.0500 . .                             
+C27 C Uiso 0.74516 0.29108 0.41529 1.000 0.0500 . .                             
+C28 C Uiso 0.79052 0.38464 0.55923 1.000 0.0500 . .                             
+C29 C Uiso 0.54480 0.29126 0.19591 1.000 0.0500 . .                             
+C30 C Uiso 0.44227 0.19442 0.22050 1.000 0.0500 . .                             
+C31 C Uiso 0.33961 0.29109 0.24513 1.000 0.0500 . .                             
+C32 C Uiso 0.15028 0.38465 0.29052 1.000 0.0500 . .                             
+C33 C Uiso 0.75940 0.29125 0.04474 1.000 0.0500 . .                             
+C34 C Uiso 0.83730 0.19442 -0.05779 1.000 0.0500 . .                            
+C35 C Uiso 0.91531 0.29109 -0.16044 1.000 0.0500 . .                            
+C36 C Uiso 1.05918 0.38464 -0.34976 1.000 0.0500 . .                            
+C37 C Uiso 0.66673 0.55657 0.16666 1.000 0.0500 . .                             
+C38 C Uiso 0.69597 0.47803 0.25933 1.000 0.0500 . .                             
+C39 C Uiso 0.72055 0.57487 0.33726 1.000 0.0500 . .                             
+C40 C Uiso 0.74516 0.47819 0.41529 1.000 0.0500 . .                             
+C41 C Uiso 0.54479 0.47803 0.19591 1.000 0.0500 . .                             
+C42 C Uiso 0.44226 0.57486 0.22050 1.000 0.0500 . .                             
+C43 C Uiso 0.33961 0.47820 0.24513 1.000 0.0500 . .                             
+C44 C Uiso 0.75941 0.47803 0.04474 1.000 0.0500 . .                             
+C45 C Uiso 0.83730 0.57487 -0.05778 1.000 0.0500 . .                            
+C46 C Uiso 0.91530 0.47820 -0.16044 1.000 0.0500 . .                            
+H1 H Uiso 0.33327 0.56730 0.83334 1.000 0.0500 . .                              
+H2 H Uiso 0.27946 0.54988 0.66276 1.000 0.0500 . .                              
+H3 H Uiso 0.55770 0.54989 0.77952 1.000 0.0500 . .                              
+H4 H Uiso 0.16273 0.54989 1.05775 1.000 0.0500 . .                              
+H5 H Uiso 0.21984 0.61294 0.47361 1.000 0.0500 . .                              
+H6 H Uiso 0.80652 0.61295 0.71984 1.000 0.0500 . .                              
+H7 H Uiso -0.02636 0.61294 1.30656 1.000 0.0500 . .                             
+H8 H Uiso 0.33327 1.20199 0.83334 1.000 0.0500 . .                              
+H9 H Uiso 0.27945 1.21940 0.66276 1.000 0.0500 . .                              
+H10 H Uiso 0.55770 1.21940 0.77952 1.000 0.0500 . .                             
+H11 H Uiso 0.16273 1.21940 1.05775 1.000 0.0500 . .                             
+H12 H Uiso 0.21985 1.15634 0.47361 1.000 0.0500 . .                             
+H13 H Uiso 0.80652 1.15635 0.71984 1.000 0.0500 . .                             
+H14 H Uiso -0.02636 1.15635 1.30655 1.000 0.0500 . .                            
+H15 H Uiso 0.66672 0.06730 0.16666 1.000 0.0500 . .                             
+H16 H Uiso 0.72054 0.04988 0.33724 1.000 0.0500 . .                             
+H17 H Uiso 0.44230 0.04989 0.22048 1.000 0.0500 . .                             
+H18 H Uiso 0.83727 0.04989 -0.05775 1.000 0.0500 . .                            
+H19 H Uiso 0.78015 0.11294 0.52639 1.000 0.0500 . .                             
+H20 H Uiso 0.19348 0.11295 0.28016 1.000 0.0500 . .                             
+H21 H Uiso 1.02636 0.11294 -0.30655 1.000 0.0500 . .                            
+H22 H Uiso 0.66672 0.70199 0.16666 1.000 0.0500 . .                             
+H23 H Uiso 0.72055 0.71940 0.33724 1.000 0.0500 . .                             
+H24 H Uiso 0.44230 0.71940 0.22048 1.000 0.0500 . .                             
+H25 H Uiso 0.83727 0.71940 -0.05775 1.000 0.0500 . .                            
+H26 H Uiso 0.78015 0.65634 0.52640 1.000 0.0500 . .                             
+H27 H Uiso 0.19348 0.65635 0.28016 1.000 0.0500 . .                             
+H28 H Uiso 1.02636 0.65635 -0.30655 1.000 0.0500 . .                            
+
+#===============================================================================
+
+# 10. MOLECULAR GEOMETRY
+
+_geom_special_details               
+;
+ Bond distances, angles etc. have been calculated using the
+ rounded fractional coordinates. All su's are estimated
+ from the variances of the (full) variance-covariance matrix.
+ The cell esds are taken into account in the estimation of
+ distances, angles and torsion angles
+;
+
+loop_
+_geom_bond_atom_site_label_1        
+_geom_bond_atom_site_label_2        
+_geom_bond_distance                 
+_geom_bond_site_symmetry_1          
+_geom_bond_site_symmetry_2          
+_geom_bond_publ_flag                
+ O1      C5           1.2047                     .       .                   yes
+ O2      C9           1.2048                     .       .                   yes
+ O3      C13          1.2047                     .       .                   yes
+ O4      C28          1.2047                     .       .                   yes
+ O5      C32          1.2048                     .       .                   yes
+ O6      C36          1.2047                     .       .                   yes
+ N1      C4           1.3877                     .       .                   yes
+ N1      C5           1.3894                     .       .                   yes
+ N2      C8           1.3877                     .       .                   yes
+ N2      C9           1.3895                     .       .                   yes
+ N3      C13          1.3894                     .       .                   yes
+ N3      C12          1.3877                     .       .                   yes
+ N4      C5           1.3894                     .       .                   yes
+ N4      C17          1.3877                     .       .                   yes
+ N5      C9           1.3895                     .       .                   yes
+ N5      C20          1.3877                     .       .                   yes
+ N6      C13          1.3895                     .       .                   yes
+ N6      C23          1.3877                     .       .                   yes
+ N1      H5           1.0100                     .       .                   no 
+ N2      H6           1.0100                     .       .                   no 
+ N3      H7           1.0100                     .       .                   no 
+ N4      H12          1.0100                     .       .                   no 
+ N5      H13          1.0100                     .       .                   no 
+ N6      H14          1.0100                     .       .                   no 
+ N7      C27          1.3877                     .       .                   yes
+ N7      C28          1.3894                     .       .                   yes
+ N8      C32          1.3895                     .       .                   yes
+ N8      C31          1.3877                     .       .                   yes
+ N9      C36          1.3894                     .       .                   yes
+ N9      C35          1.3877                     .       .                   yes
+ N10     C40          1.3877                     .       .                   yes
+ N10     C28          1.3894                     .       .                   yes
+ N11     C32          1.3895                     .       .                   yes
+ N11     C43          1.3877                     .       .                   yes
+ N12     C36          1.3895                     .       .                   yes
+ N12     C46          1.3877                     .       .                   yes
+ N7      H19          1.0100                     .       .                   no 
+ N8      H20          1.0100                     .       .                   no 
+ N9      H21          1.0100                     .       .                   no 
+ N10     H26          1.0100                     .       .                   no 
+ N11     H27          1.0100                     .       .                   no 
+ N12     H28          1.0100                     .       .                   no 
+ C1      C2           1.5249                     .       .                   no 
+ C1      C6           1.5249                     .       .                   no 
+ C1      C10          1.5249                     .       .                   no 
+ C2      C3           1.3877                     .       .                   no 
+ C2      C15          1.4004                     .       .                   no 
+ C3      C4           1.3884                     .       .                   no 
+ C4      C17          1.4029                     .       .                   no 
+ C6      C7           1.3879                     .       .                   no 
+ C6      C18          1.4004                     .       .                   no 
+ C7      C8           1.3884                     .       .                   no 
+ C8      C20          1.4029                     .       .                   no 
+ C10     C21          1.4004                     .       .                   no 
+ C10     C11          1.3878                     .       .                   no 
+ C11     C12          1.3885                     .       .                   no 
+ C12     C23          1.4029                     .       .                   no 
+ C14     C21          1.5249                     .       .                   no 
+ C14     C18          1.5249                     .       .                   no 
+ C14     C15          1.5249                     .       .                   no 
+ C15     C16          1.3878                     .       .                   no 
+ C16     C17          1.3885                     .       .                   no 
+ C18     C19          1.3878                     .       .                   no 
+ C19     C20          1.3884                     .       .                   no 
+ C21     C22          1.3878                     .       .                   no 
+ C22     C23          1.3885                     .       .                   no 
+ C1      H1           1.0900                     .       .                   no 
+ C3      H2           1.0800                     .       .                   no 
+ C7      H3           1.0800                     .       .                   no 
+ C11     H4           1.0800                     .       .                   no 
+ C14     H8           1.0900                     .       .                   no 
+ C16     H9           1.0800                     .       .                   no 
+ C19     H10          1.0800                     .       .                   no 
+ C22     H11          1.0800                     .       .                   no 
+ C24     C29          1.5249                     .       .                   no 
+ C24     C25          1.5249                     .       .                   no 
+ C24     C33          1.5249                     .       .                   no 
+ C25     C38          1.4004                     .       .                   no 
+ C25     C26          1.3877                     .       .                   no 
+ C26     C27          1.3884                     .       .                   no 
+ C27     C40          1.4029                     .       .                   no 
+ C29     C41          1.4004                     .       .                   no 
+ C29     C30          1.3879                     .       .                   no 
+ C30     C31          1.3884                     .       .                   no 
+ C31     C43          1.4029                     .       .                   no 
+ C33     C34          1.3878                     .       .                   no 
+ C33     C44          1.4004                     .       .                   no 
+ C34     C35          1.3885                     .       .                   no 
+ C35     C46          1.4029                     .       .                   no 
+ C37     C41          1.5249                     .       .                   no 
+ C37     C38          1.5249                     .       .                   no 
+ C37     C44          1.5249                     .       .                   no 
+ C38     C39          1.3878                     .       .                   no 
+ C39     C40          1.3885                     .       .                   no 
+ C41     C42          1.3878                     .       .                   no 
+ C42     C43          1.3884                     .       .                   no 
+ C44     C45          1.3878                     .       .                   no 
+ C45     C46          1.3885                     .       .                   no 
+ C24     H15          1.0900                     .       .                   no 
+ C26     H16          1.0800                     .       .                   no 
+ C30     H17          1.0800                     .       .                   no 
+ C34     H18          1.0800                     .       .                   no 
+ C37     H22          1.0900                     .       .                   no 
+ C39     H23          1.0800                     .       .                   no 
+ C42     H24          1.0800                     .       .                   no 
+ C45     H25          1.0800                     .       .                   no 
+
+loop_
+_geom_angle_atom_site_label_1       
+_geom_angle_atom_site_label_2       
+_geom_angle_atom_site_label_3       
+_geom_angle                         
+_geom_angle_site_symmetry_1         
+_geom_angle_site_symmetry_2         
+_geom_angle_site_symmetry_3         
+_geom_angle_publ_flag               
+ C4      N1      C5           111.39             .       .       .           yes
+ C8      N2      C9           111.39             .       .       .           yes
+ C12     N3      C13          111.38             .       .       .           yes
+ C5      N4      C17          111.38             .       .       .           yes
+ C9      N5      C20          111.39             .       .       .           yes
+ C13     N6      C23          111.38             .       .       .           yes
+ C4      N1      H5           127.00             .       .       .           no 
+ C5      N1      H5           121.00             .       .       .           no 
+ C9      N2      H6           121.00             .       .       .           no 
+ C8      N2      H6           127.00             .       .       .           no 
+ C12     N3      H7           127.00             .       .       .           no 
+ C13     N3      H7           121.00             .       .       .           no 
+ C5      N4      H12          121.00             .       .       .           no 
+ C17     N4      H12          127.00             .       .       .           no 
+ C20     N5      H13          127.00             .       .       .           no 
+ C9      N5      H13          121.00             .       .       .           no 
+ C13     N6      H14          121.00             .       .       .           no 
+ C23     N6      H14          127.00             .       .       .           no 
+ C27     N7      C28          111.39             .       .       .           yes
+ C31     N8      C32          111.39             .       .       .           yes
+ C35     N9      C36          111.38             .       .       .           yes
+ C28     N10     C40          111.38             .       .       .           yes
+ C32     N11     C43          111.39             .       .       .           yes
+ C36     N12     C46          111.38             .       .       .           yes
+ C28     N7      H19          121.00             .       .       .           no 
+ C27     N7      H19          127.00             .       .       .           no 
+ C32     N8      H20          121.00             .       .       .           no 
+ C31     N8      H20          127.00             .       .       .           no 
+ C35     N9      H21          127.00             .       .       .           no 
+ C36     N9      H21          121.00             .       .       .           no 
+ C40     N10     H26          127.00             .       .       .           no 
+ C28     N10     H26          121.00             .       .       .           no 
+ C32     N11     H27          121.00             .       .       .           no 
+ C43     N11     H27          127.00             .       .       .           no 
+ C46     N12     H28          127.00             .       .       .           no 
+ C36     N12     H28          121.00             .       .       .           no 
+ C2      C1      C10          106.04             .       .       .           no 
+ C2      C1      C6           106.03             .       .       .           no 
+ C6      C1      C10          106.03             .       .       .           no 
+ C1      C2      C15          112.72             .       .       .           no 
+ C1      C2      C3           125.73             .       .       .           no 
+ C3      C2      C15          121.55             .       .       .           no 
+ C2      C3      C4           116.99             .       .       .           no 
+ N1      C4      C3           132.01             .       .       .           yes
+ C3      C4      C17          121.47             .       .       .           no 
+ N1      C4      C17          106.53             .       .       .           yes
+ O1      C5      N1           127.91             .       .       .           yes
+ O1      C5      N4           127.91             .       .       .           yes
+ N1      C5      N4           104.18             .       .       .           yes
+ C7      C6      C18          121.54             .       .       .           no 
+ C1      C6      C7           125.73             .       .       .           no 
+ C1      C6      C18          112.72             .       .       .           no 
+ C6      C7      C8           116.98             .       .       .           no 
+ C7      C8      C20          121.47             .       .       .           no 
+ N2      C8      C20          106.52             .       .       .           yes
+ N2      C8      C7           132.00             .       .       .           yes
+ O2      C9      N2           127.91             .       .       .           yes
+ N2      C9      N5           104.17             .       .       .           yes
+ O2      C9      N5           127.91             .       .       .           yes
+ C1      C10     C11          125.73             .       .       .           no 
+ C1      C10     C21          112.72             .       .       .           no 
+ C11     C10     C21          121.54             .       .       .           no 
+ C10     C11     C12          116.98             .       .       .           no 
+ N3      C12     C11          132.00             .       .       .           yes
+ N3      C12     C23          106.53             .       .       .           yes
+ C11     C12     C23          121.47             .       .       .           no 
+ N3      C13     N6           104.18             .       .       .           yes
+ O3      C13     N6           127.91             .       .       .           yes
+ O3      C13     N3           127.91             .       .       .           yes
+ C15     C14     C21          106.04             .       .       .           no 
+ C18     C14     C21          106.04             .       .       .           no 
+ C15     C14     C18          106.03             .       .       .           no 
+ C2      C15     C14          112.72             .       .       .           no 
+ C2      C15     C16          121.54             .       .       .           no 
+ C14     C15     C16          125.74             .       .       .           no 
+ C15     C16     C17          116.98             .       .       .           no 
+ N4      C17     C16          132.00             .       .       .           yes
+ N4      C17     C4           106.53             .       .       .           yes
+ C4      C17     C16          121.47             .       .       .           no 
+ C14     C18     C19          125.73             .       .       .           no 
+ C6      C18     C14          112.72             .       .       .           no 
+ C6      C18     C19          121.55             .       .       .           no 
+ C18     C19     C20          116.99             .       .       .           no 
+ N5      C20     C19          132.01             .       .       .           yes
+ N5      C20     C8           106.53             .       .       .           yes
+ C8      C20     C19          121.47             .       .       .           no 
+ C14     C21     C22          125.73             .       .       .           no 
+ C10     C21     C22          121.55             .       .       .           no 
+ C10     C21     C14          112.72             .       .       .           no 
+ C21     C22     C23          116.98             .       .       .           no 
+ N6      C23     C22          132.01             .       .       .           yes
+ C12     C23     C22          121.47             .       .       .           no 
+ N6      C23     C12          106.53             .       .       .           yes
+ C10     C1      H1           113.00             .       .       .           no 
+ C6      C1      H1           113.00             .       .       .           no 
+ C2      C1      H1           113.00             .       .       .           no 
+ C4      C3      H2           121.00             .       .       .           no 
+ C2      C3      H2           122.00             .       .       .           no 
+ C8      C7      H3           121.00             .       .       .           no 
+ C6      C7      H3           122.00             .       .       .           no 
+ C10     C11     H4           122.00             .       .       .           no 
+ C12     C11     H4           121.00             .       .       .           no 
+ C21     C14     H8           113.00             .       .       .           no 
+ C18     C14     H8           113.00             .       .       .           no 
+ C15     C14     H8           113.00             .       .       .           no 
+ C15     C16     H9           122.00             .       .       .           no 
+ C17     C16     H9           121.00             .       .       .           no 
+ C18     C19     H10          122.00             .       .       .           no 
+ C20     C19     H10          121.00             .       .       .           no 
+ C23     C22     H11          121.00             .       .       .           no 
+ C21     C22     H11          122.00             .       .       .           no 
+ C25     C24     C29          106.03             .       .       .           no 
+ C29     C24     C33          106.03             .       .       .           no 
+ C25     C24     C33          106.04             .       .       .           no 
+ C24     C25     C38          112.72             .       .       .           no 
+ C26     C25     C38          121.55             .       .       .           no 
+ C24     C25     C26          125.73             .       .       .           no 
+ C25     C26     C27          116.99             .       .       .           no 
+ C26     C27     C40          121.47             .       .       .           no 
+ N7      C27     C40          106.52             .       .       .           yes
+ N7      C27     C26          132.01             .       .       .           yes
+ O4      C28     N7           127.91             .       .       .           yes
+ O4      C28     N10          127.91             .       .       .           yes
+ N7      C28     N10          104.18             .       .       .           yes
+ C24     C29     C30          125.73             .       .       .           no 
+ C30     C29     C41          121.54             .       .       .           no 
+ C24     C29     C41          112.72             .       .       .           no 
+ C29     C30     C31          116.98             .       .       .           no 
+ N8      C31     C30          132.00             .       .       .           yes
+ N8      C31     C43          106.52             .       .       .           yes
+ C30     C31     C43          121.47             .       .       .           no 
+ O5      C32     N8           127.91             .       .       .           yes
+ N8      C32     N11          104.17             .       .       .           yes
+ O5      C32     N11          127.91             .       .       .           yes
+ C24     C33     C44          112.72             .       .       .           no 
+ C34     C33     C44          121.54             .       .       .           no 
+ C24     C33     C34          125.73             .       .       .           no 
+ C33     C34     C35          116.98             .       .       .           no 
+ C34     C35     C46          121.47             .       .       .           no 
+ N9      C35     C34          132.00             .       .       .           yes
+ N9      C35     C46          106.53             .       .       .           yes
+ O6      C36     N9           127.91             .       .       .           yes
+ O6      C36     N12          127.91             .       .       .           yes
+ N9      C36     N12          104.18             .       .       .           yes
+ C41     C37     C44          106.04             .       .       .           no 
+ C38     C37     C41          106.03             .       .       .           no 
+ C38     C37     C44          106.04             .       .       .           no 
+ C37     C38     C39          125.74             .       .       .           no 
+ C25     C38     C39          121.54             .       .       .           no 
+ C25     C38     C37          112.72             .       .       .           no 
+ C38     C39     C40          116.98             .       .       .           no 
+ N10     C40     C39          132.00             .       .       .           yes
+ N10     C40     C27          106.53             .       .       .           yes
+ C27     C40     C39          121.47             .       .       .           no 
+ C29     C41     C37          112.72             .       .       .           no 
+ C29     C41     C42          121.55             .       .       .           no 
+ C37     C41     C42          125.73             .       .       .           no 
+ C41     C42     C43          116.99             .       .       .           no 
+ N11     C43     C31          106.53             .       .       .           yes
+ N11     C43     C42          132.01             .       .       .           yes
+ C31     C43     C42          121.47             .       .       .           no 
+ C33     C44     C37          112.72             .       .       .           no 
+ C33     C44     C45          121.55             .       .       .           no 
+ C37     C44     C45          125.73             .       .       .           no 
+ C44     C45     C46          116.98             .       .       .           no 
+ N12     C46     C45          132.01             .       .       .           yes
+ C35     C46     C45          121.47             .       .       .           no 
+ N12     C46     C35          106.53             .       .       .           yes
+ C25     C24     H15          113.00             .       .       .           no 
+ C29     C24     H15          113.00             .       .       .           no 
+ C33     C24     H15          113.00             .       .       .           no 
+ C25     C26     H16          122.00             .       .       .           no 
+ C27     C26     H16          121.00             .       .       .           no 
+ C29     C30     H17          122.00             .       .       .           no 
+ C31     C30     H17          121.00             .       .       .           no 
+ C33     C34     H18          122.00             .       .       .           no 
+ C35     C34     H18          121.00             .       .       .           no 
+ C38     C37     H22          113.00             .       .       .           no 
+ C41     C37     H22          113.00             .       .       .           no 
+ C44     C37     H22          113.00             .       .       .           no 
+ C38     C39     H23          122.00             .       .       .           no 
+ C40     C39     H23          121.00             .       .       .           no 
+ C41     C42     H24          122.00             .       .       .           no 
+ C43     C42     H24          121.00             .       .       .           no 
+ C44     C45     H25          122.00             .       .       .           no 
+ C46     C45     H25          121.00             .       .       .           no 
+
+loop_
+_geom_torsion_atom_site_label_1     
+_geom_torsion_atom_site_label_2     
+_geom_torsion_atom_site_label_3     
+_geom_torsion_atom_site_label_4     
+_geom_torsion                       
+_geom_torsion_site_symmetry_1       
+_geom_torsion_site_symmetry_2       
+_geom_torsion_site_symmetry_3       
+_geom_torsion_site_symmetry_4       
+_geom_torsion_publ_flag             
+ C5      N1      C4      C17            0.00     .       .       .       .   no 
+ C4      N1      C5      O1           180.00     .       .       .       .   no 
+ C5      N1      C4      C3          -180.00     .       .       .       .   no 
+ C4      N1      C5      N4            -0.00     .       .       .       .   no 
+ C9      N2      C8      C20           -0.00     .       .       .       .   no 
+ C9      N2      C8      C7          -179.97     .       .       .       .   no 
+ C8      N2      C9      N5            -0.00     .       .       .       .   no 
+ C8      N2      C9      O2          -180.00     .       .       .       .   no 
+ C12     N3      C13     O3           179.97     .       .       .       .   no 
+ C12     N3      C13     N6            -0.03     .       .       .       .   no 
+ C13     N3      C12     C11         -179.97     .       .       .       .   no 
+ C13     N3      C12     C23            0.00     .       .       .       .   no 
+ C5      N4      C17     C16          180.00     .       .       .       .   no 
+ C17     N4      C5      N1             0.00     .       .       .       .   no 
+ C5      N4      C17     C4            -0.00     .       .       .       .   no 
+ C17     N4      C5      O1          -180.00     .       .       .       .   no 
+ C9      N5      C20     C8            -0.00     .       .       .       .   no 
+ C20     N5      C9      N2             0.00     .       .       .       .   no 
+ C9      N5      C20     C19          180.00     .       .       .       .   no 
+ C20     N5      C9      O2           180.00     .       .       .       .   no 
+ C13     N6      C23     C22          179.98     .       .       .       .   no 
+ C23     N6      C13     N3             0.02     .       .       .       .   no 
+ C23     N6      C13     O3          -179.98     .       .       .       .   no 
+ C13     N6      C23     C12           -0.00     .       .       .       .   no 
+ C28     N7      C27     C40            0.00     .       .       .       .   no 
+ C27     N7      C28     O4           179.97     .       .       .       .   no 
+ C27     N7      C28     N10           -0.00     .       .       .       .   no 
+ C28     N7      C27     C26         -180.00     .       .       .       .   no 
+ C31     N8      C32     N11           -0.02     .       .       .       .   no 
+ C31     N8      C32     O5          -180.00     .       .       .       .   no 
+ C32     N8      C31     C30         -179.97     .       .       .       .   no 
+ C32     N8      C31     C43           -0.00     .       .       .       .   no 
+ C35     N9      C36     O6           179.97     .       .       .       .   no 
+ C35     N9      C36     N12           -0.03     .       .       .       .   no 
+ C36     N9      C35     C46            0.02     .       .       .       .   no 
+ C36     N9      C35     C34         -179.97     .       .       .       .   no 
+ C28     N10     C40     C27           -0.00     .       .       .       .   no 
+ C40     N10     C28     N7             0.00     .       .       .       .   no 
+ C40     N10     C28     O4          -180.00     .       .       .       .   no 
+ C28     N10     C40     C39          180.00     .       .       .       .   no 
+ C43     N11     C32     N8             0.02     .       .       .       .   no 
+ C43     N11     C32     O5           179.98     .       .       .       .   no 
+ C32     N11     C43     C31           -0.02     .       .       .       .   no 
+ C32     N11     C43     C42          179.98     .       .       .       .   no 
+ C36     N12     C46     C45          180.00     .       .       .       .   no 
+ C36     N12     C46     C35           -0.00     .       .       .       .   no 
+ C46     N12     C36     O6          -180.00     .       .       .       .   no 
+ C46     N12     C36     N9             0.00     .       .       .       .   no 
+ C10     C1      C6      C7           123.77     .       .       .       .   no 
+ C2      C1      C10     C11          123.81     .       .       .       .   no 
+ C6      C1      C10     C21           56.22     .       .       .       .   no 
+ C2      C1      C6      C18           56.22     .       .       .       .   no 
+ C2      C1      C10     C21          -56.22     .       .       .       .   no 
+ C10     C1      C2      C3          -123.79     .       .       .       .   no 
+ C2      C1      C6      C7          -123.78     .       .       .       .   no 
+ C6      C1      C2      C15          -56.22     .       .       .       .   no 
+ C6      C1      C2      C3           123.77     .       .       .       .   no 
+ C6      C1      C10     C11         -123.75     .       .       .       .   no 
+ C10     C1      C6      C18          -56.22     .       .       .       .   no 
+ C10     C1      C2      C15           56.22     .       .       .       .   no 
+ C3      C2      C15     C14         -179.97     .       .       .       .   no 
+ C3      C2      C15     C16            0.00     .       .       .       .   no 
+ C1      C2      C3      C4          -180.00     .       .       .       .   no 
+ C1      C2      C15     C16          180.00     .       .       .       .   no 
+ C1      C2      C15     C14           -0.00     .       .       .       .   no 
+ C15     C2      C3      C4            -0.00     .       .       .       .   no 
+ C2      C3      C4      C17           -0.00     .       .       .       .   no 
+ C2      C3      C4      N1           180.00     .       .       .       .   no 
+ N1      C4      C17     C16         -180.00     .       .       .       .   no 
+ C3      C4      C17     C16            0.00     .       .       .       .   no 
+ C3      C4      C17     N4           180.00     .       .       .       .   no 
+ N1      C4      C17     N4            -0.00     .       .       .       .   no 
+ C1      C6      C7      C8           180.00     .       .       .       .   no 
+ C7      C6      C18     C14         -180.00     .       .       .       .   no 
+ C1      C6      C18     C19          180.00     .       .       .       .   no 
+ C18     C6      C7      C8            -0.00     .       .       .       .   no 
+ C1      C6      C18     C14            0.00     .       .       .       .   no 
+ C7      C6      C18     C19            0.00     .       .       .       .   no 
+ C6      C7      C8      N2           179.97     .       .       .       .   no 
+ C6      C7      C8      C20            0.00     .       .       .       .   no 
+ C7      C8      C20     C19           -0.00     .       .       .       .   no 
+ C7      C8      C20     N5           180.00     .       .       .       .   no 
+ N2      C8      C20     C19         -180.00     .       .       .       .   no 
+ N2      C8      C20     N5             0.00     .       .       .       .   no 
+ C11     C10     C21     C14          179.97     .       .       .       .   no 
+ C11     C10     C21     C22           -0.00     .       .       .       .   no 
+ C21     C10     C11     C12            0.00     .       .       .       .   no 
+ C1      C10     C11     C12          180.00     .       .       .       .   no 
+ C1      C10     C21     C14           -0.02     .       .       .       .   no 
+ C1      C10     C21     C22         -179.98     .       .       .       .   no 
+ C10     C11     C12     C23           -0.02     .       .       .       .   no 
+ C10     C11     C12     N3           179.98     .       .       .       .   no 
+ N3      C12     C23     N6            -0.00     .       .       .       .   no 
+ C11     C12     C23     C22            0.02     .       .       .       .   no 
+ N3      C12     C23     C22         -180.00     .       .       .       .   no 
+ C11     C12     C23     N6          -180.00     .       .       .       .   no 
+ C15     C14     C18     C6           -56.22     .       .       .       .   no 
+ C15     C14     C21     C10           56.22     .       .       .       .   no 
+ C21     C14     C18     C19         -123.77     .       .       .       .   no 
+ C18     C14     C21     C10          -56.22     .       .       .       .   no 
+ C15     C14     C21     C22         -123.81     .       .       .       .   no 
+ C21     C14     C15     C16          123.79     .       .       .       .   no 
+ C18     C14     C21     C22          123.76     .       .       .       .   no 
+ C15     C14     C18     C19          123.78     .       .       .       .   no 
+ C21     C14     C18     C6            56.22     .       .       .       .   no 
+ C21     C14     C15     C2           -56.22     .       .       .       .   no 
+ C18     C14     C15     C16         -123.77     .       .       .       .   no 
+ C18     C14     C15     C2            56.23     .       .       .       .   no 
+ C2      C15     C16     C17           -0.00     .       .       .       .   no 
+ C14     C15     C16     C17          179.98     .       .       .       .   no 
+ C15     C16     C17     C4            -0.00     .       .       .       .   no 
+ C15     C16     C17     N4          -180.00     .       .       .       .   no 
+ C14     C18     C19     C20          179.98     .       .       .       .   no 
+ C6      C18     C19     C20            0.00     .       .       .       .   no 
+ C18     C19     C20     C8            -0.00     .       .       .       .   no 
+ C18     C19     C20     N5          -180.00     .       .       .       .   no 
+ C14     C21     C22     C23         -179.96     .       .       .       .   no 
+ C10     C21     C22     C23           -0.00     .       .       .       .   no 
+ C21     C22     C23     C12           -0.00     .       .       .       .   no 
+ C21     C22     C23     N6          -179.98     .       .       .       .   no 
+ C25     C24     C33     C44          -56.22     .       .       .       .   no 
+ C29     C24     C25     C38          -56.22     .       .       .       .   no 
+ C33     C24     C29     C41          -56.22     .       .       .       .   no 
+ C33     C24     C25     C38           56.22     .       .       .       .   no 
+ C33     C24     C29     C30          123.77     .       .       .       .   no 
+ C25     C24     C29     C30         -123.78     .       .       .       .   no 
+ C25     C24     C29     C41           56.22     .       .       .       .   no 
+ C25     C24     C33     C34          123.81     .       .       .       .   no 
+ C29     C24     C33     C34         -123.75     .       .       .       .   no 
+ C29     C24     C25     C26          123.77     .       .       .       .   no 
+ C33     C24     C25     C26         -123.79     .       .       .       .   no 
+ C29     C24     C33     C44           56.22     .       .       .       .   no 
+ C24     C25     C38     C37           -0.00     .       .       .       .   no 
+ C38     C25     C26     C27           -0.00     .       .       .       .   no 
+ C24     C25     C26     C27         -180.00     .       .       .       .   no 
+ C24     C25     C38     C39          180.00     .       .       .       .   no 
+ C26     C25     C38     C39            0.00     .       .       .       .   no 
+ C26     C25     C38     C37         -180.00     .       .       .       .   no 
+ C25     C26     C27     C40           -0.00     .       .       .       .   no 
+ C25     C26     C27     N7           180.00     .       .       .       .   no 
+ N7      C27     C40     C39         -180.00     .       .       .       .   no 
+ N7      C27     C40     N10           -0.00     .       .       .       .   no 
+ C26     C27     C40     C39            0.00     .       .       .       .   no 
+ C26     C27     C40     N10          180.00     .       .       .       .   no 
+ C30     C29     C41     C37         -180.00     .       .       .       .   no 
+ C30     C29     C41     C42            0.02     .       .       .       .   no 
+ C24     C29     C30     C31          180.00     .       .       .       .   no 
+ C24     C29     C41     C42          180.00     .       .       .       .   no 
+ C41     C29     C30     C31           -0.02     .       .       .       .   no 
+ C24     C29     C41     C37            0.00     .       .       .       .   no 
+ C29     C30     C31     N8           180.00     .       .       .       .   no 
+ C29     C30     C31     C43            0.00     .       .       .       .   no 
+ N8      C31     C43     N11            0.00     .       .       .       .   no 
+ N8      C31     C43     C42         -180.00     .       .       .       .   no 
+ C30     C31     C43     C42           -0.00     .       .       .       .   no 
+ C30     C31     C43     N11          180.00     .       .       .       .   no 
+ C34     C33     C44     C37          179.97     .       .       .       .   no 
+ C24     C33     C44     C45         -179.97     .       .       .       .   no 
+ C34     C33     C44     C45           -0.03     .       .       .       .   no 
+ C24     C33     C34     C35          180.00     .       .       .       .   no 
+ C24     C33     C44     C37           -0.00     .       .       .       .   no 
+ C44     C33     C34     C35            0.00     .       .       .       .   no 
+ C33     C34     C35     N9           180.00     .       .       .       .   no 
+ C33     C34     C35     C46           -0.02     .       .       .       .   no 
+ C34     C35     C46     N12         -179.98     .       .       .       .   no 
+ C34     C35     C46     C45            0.02     .       .       .       .   no 
+ N9      C35     C46     C45         -180.00     .       .       .       .   no 
+ N9      C35     C46     N12           -0.00     .       .       .       .   no 
+ C44     C37     C38     C39          123.79     .       .       .       .   no 
+ C38     C37     C41     C29          -56.22     .       .       .       .   no 
+ C38     C37     C41     C42          123.78     .       .       .       .   no 
+ C38     C37     C44     C45         -123.81     .       .       .       .   no 
+ C41     C37     C44     C33          -56.22     .       .       .       .   no 
+ C41     C37     C44     C45          123.76     .       .       .       .   no 
+ C44     C37     C41     C42         -123.77     .       .       .       .   no 
+ C44     C37     C41     C29           56.22     .       .       .       .   no 
+ C41     C37     C38     C25           56.23     .       .       .       .   no 
+ C41     C37     C38     C39         -123.77     .       .       .       .   no 
+ C44     C37     C38     C25          -56.22     .       .       .       .   no 
+ C38     C37     C44     C33           56.22     .       .       .       .   no 
+ C25     C38     C39     C40           -0.00     .       .       .       .   no 
+ C37     C38     C39     C40          179.97     .       .       .       .   no 
+ C38     C39     C40     C27           -0.00     .       .       .       .   no 
+ C38     C39     C40     N10         -179.97     .       .       .       .   no 
+ C29     C41     C42     C43            0.02     .       .       .       .   no 
+ C37     C41     C42     C43          179.98     .       .       .       .   no 
+ C41     C42     C43     C31           -0.00     .       .       .       .   no 
+ C41     C42     C43     N11         -180.00     .       .       .       .   no 
+ C33     C44     C45     C46           -0.02     .       .       .       .   no 
+ C37     C44     C45     C46         -179.98     .       .       .       .   no 
+ C44     C45     C46     C35           -0.00     .       .       .       .   no 
+ C44     C45     C46     N12         -180.00     .       .       .       .   no 
+
+loop_
+_geom_contact_atom_site_label_1     
+_geom_contact_atom_site_label_2     
+_geom_contact_distance              
+_geom_contact_site_symmetry_1       
+_geom_contact_site_symmetry_2       
+_geom_contact_publ_flag             
+ O1      N8           2.8282                     .     1_565                 no 
+ O1      N11          2.8282                     .       .                   no 
+ O1      C13          3.1851                     .     1_554                 no 
+ O2      N12          2.8282                     .     1_556                 no 
+ O2      C5           3.1857                     .     1_655                 no 
+ O2      N9           2.8281                     .     1_566                 no 
+ O3      N7           2.8283                     .     1_466                 no 
+ O3      N10          2.8284                     .     1_456                 no 
+ O3      C9           3.1853                     .     1_456                 no 
+ O4      C36          3.1851                     .     1_556                 no 
+ O4      N2           2.8282                     .       .                   no 
+ O4      N5           2.8282                     .     1_545                 no 
+ O5      N6           2.8282                     .     1_544                 no 
+ O5      N3           2.8281                     .     1_554                 no 
+ O5      C28          3.1857                     .     1_455                 no 
+ O6      N4           2.8284                     .     1_644                 no 
+ O6      N1           2.8283                     .     1_654                 no 
+ O6      C32          3.1853                     .     1_654                 no 
+ O1      H27          1.9700                     .       .                   no 
+ O1      H20          1.9700                     .     1_565                 no 
+ O2      H28          1.9700                     .     1_556                 no 
+ O2      H21          1.9700                     .     1_566                 no 
+ O3      H26          1.9700                     .     1_456                 no 
+ O3      H19          1.9700                     .     1_466                 no 
+ O4      H6           1.9700                     .       .                   no 
+ O4      H13          1.9700                     .     1_545                 no 
+ O5      H7           1.9700                     .     1_554                 no 
+ O5      H14          1.9700                     .     1_544                 no 
+ O6      H5           1.9700                     .     1_654                 no 
+ O6      H12          1.9700                     .     1_644                 no 
+ N1      O6           2.8283                     .     1_456                 no 
+ N1      N4           2.1924                     .       .                   no 
+ N1      N11          3.2739                     .       .                   no 
+ N1      N12          3.2739                     .     1_456                 no 
+ N1      C36          3.3560                     .     1_456                 no 
+ N1      C42          3.4352                     .       .                   no 
+ N1      C43          3.4037                     .       .                   no 
+ N2      N12          3.2736                     .     1_556                 no 
+ N2      N5           2.1924                     .       .                   no 
+ N2      N10          3.2739                     .       .                   no 
+ N2      C46          3.4037                     .     1_556                 no 
+ N2      O4           2.8282                     .       .                   no 
+ N2      C28          3.3561                     .       .                   no 
+ N2      C45          3.4353                     .     1_556                 no 
+ N3      C40          3.4034                     .     1_456                 no 
+ N3      C32          3.3557                     .     1_556                 no 
+ N3      C39          3.4345                     .     1_456                 no 
+ N3      N6           2.1924                     .       .                   no 
+ N3      N10          3.2739                     .     1_456                 no 
+ N3      O5           2.8281                     .     1_556                 no 
+ N3      N11          3.2736                     .     1_556                 no 
+ N4      N8           3.2739                     .     1_565                 no 
+ N4      O6           2.8284                     .     1_466                 no 
+ N4      N9           3.2739                     .     1_466                 no 
+ N4      C30          3.4352                     .     1_565                 no 
+ N4      C31          3.4038                     .     1_565                 no 
+ N4      C36          3.3560                     .     1_466                 no 
+ N5      N9           3.2736                     .     1_566                 no 
+ N5      N7           3.2739                     .     1_565                 no 
+ N5      C34          3.4352                     .     1_566                 no 
+ N5      C35          3.4038                     .     1_566                 no 
+ N5      O4           2.8282                     .     1_565                 no 
+ N5      C28          3.3559                     .     1_565                 no 
+ N6      C32          3.3558                     .     1_566                 no 
+ N6      N7           3.2739                     .     1_466                 no 
+ N6      N8           3.2736                     .     1_566                 no 
+ N6      O5           2.8282                     .     1_566                 no 
+ N6      C27          3.4034                     .     1_466                 no 
+ N6      C26          3.4344                     .     1_466                 no 
+ N7      O3           2.8283                     .     1_644                 no 
+ N7      C19          3.4352                     .     1_545                 no 
+ N7      N6           3.2739                     .     1_644                 no 
+ N7      N10          2.1924                     .       .                   no 
+ N7      N5           3.2739                     .     1_545                 no 
+ N7      C13          3.3560                     .     1_644                 no 
+ N7      C20          3.4037                     .     1_545                 no 
+ N8      O1           2.8282                     .     1_545                 no 
+ N8      N6           3.2736                     .     1_544                 no 
+ N8      C23          3.4037                     .     1_544                 no 
+ N8      N11          2.1924                     .       .                   no 
+ N8      N4           3.2739                     .     1_545                 no 
+ N8      C5           3.3561                     .     1_545                 no 
+ N8      C22          3.4353                     .     1_544                 no 
+ N9      C16          3.4345                     .     1_644                 no 
+ N9      N5           3.2736                     .     1_544                 no 
+ N9      C17          3.4034                     .     1_644                 no 
+ N9      O2           2.8281                     .     1_544                 no 
+ N9      C9           3.3557                     .     1_544                 no 
+ N9      N4           3.2739                     .     1_644                 no 
+ N9      N12          2.1924                     .       .                   no 
+ N10     C7           3.4352                     .       .                   no 
+ N10     N2           3.2739                     .       .                   no 
+ N10     N3           3.2739                     .     1_654                 no 
+ N10     C8           3.4038                     .       .                   no 
+ N10     C13          3.3560                     .     1_654                 no 
+ N10     O3           2.8284                     .     1_654                 no 
+ N11     C11          3.4352                     .     1_554                 no 
+ N11     N1           3.2739                     .       .                   no 
+ N11     C5           3.3559                     .       .                   no 
+ N11     C12          3.4038                     .     1_554                 no 
+ N11     N3           3.2736                     .     1_554                 no 
+ N11     O1           2.8282                     .       .                   no 
+ N12     O2           2.8282                     .     1_554                 no 
+ N12     C9           3.3557                     .     1_554                 no 
+ N12     N2           3.2736                     .     1_554                 no 
+ N12     C4           3.4034                     .     1_654                 no 
+ N12     C3           3.4344                     .     1_654                 no 
+ N12     N1           3.2739                     .     1_654                 no 
+ N1      H28          2.6100                     .     1_456                 no 
+ N2      H26          2.6100                     .       .                   no 
+ N3      H27          2.6100                     .     1_556                 no 
+ N4      H21          2.6100                     .     1_466                 no 
+ N5      H19          2.6100                     .     1_565                 no 
+ N6      H20          2.6100                     .     1_566                 no 
+ N7      H14          2.6100                     .     1_644                 no 
+ N8      H12          2.6100                     .     1_545                 no 
+ N9      H13          2.6100                     .     1_544                 no 
+ N10     H7           2.6100                     .     1_654                 no 
+ N11     H5           2.6100                     .       .                   no 
+ N12     H6           2.6100                     .     1_554                 no 
+ C3      N12          3.4344                     .     1_456                 no 
+ C4      N12          3.4034                     .     1_456                 no 
+ C5      O2           3.1857                     .     1_455                 no 
+ C5      N8           3.3561                     .     1_565                 no 
+ C5      N11          3.3559                     .       .                   no 
+ C7      N10          3.4352                     .       .                   no 
+ C8      N10          3.4038                     .       .                   no 
+ C9      N12          3.3557                     .     1_556                 no 
+ C9      N9           3.3557                     .     1_566                 no 
+ C9      O3           3.1853                     .     1_654                 no 
+ C11     N11          3.4352                     .     1_556                 no 
+ C12     N11          3.4038                     .     1_556                 no 
+ C13     N7           3.3560                     .     1_466                 no 
+ C13     N10          3.3560                     .     1_456                 no 
+ C13     O1           3.1851                     .     1_556                 no 
+ C16     N9           3.4345                     .     1_466                 no 
+ C17     N9           3.4034                     .     1_466                 no 
+ C19     N7           3.4352                     .     1_565                 no 
+ C20     N7           3.4037                     .     1_565                 no 
+ C22     N8           3.4353                     .     1_566                 no 
+ C23     N8           3.4037                     .     1_566                 no 
+ C26     N6           3.4344                     .     1_644                 no 
+ C27     N6           3.4034                     .     1_644                 no 
+ C28     N2           3.3561                     .       .                   no 
+ C28     N5           3.3559                     .     1_545                 no 
+ C28     O5           3.1857                     .     1_655                 no 
+ C30     N4           3.4352                     .     1_545                 no 
+ C31     N4           3.4038                     .     1_545                 no 
+ C32     N6           3.3558                     .     1_544                 no 
+ C32     O6           3.1853                     .     1_456                 no 
+ C32     N3           3.3557                     .     1_554                 no 
+ C34     N5           3.4352                     .     1_544                 no 
+ C35     N5           3.4038                     .     1_544                 no 
+ C36     O4           3.1851                     .     1_554                 no 
+ C36     N4           3.3560                     .     1_644                 no 
+ C36     N1           3.3560                     .     1_654                 no 
+ C39     N3           3.4345                     .     1_654                 no 
+ C40     N3           3.4034                     .     1_654                 no 
+ C42     N1           3.4352                     .       .                   no 
+ C43     N1           3.4037                     .       .                   no 
+ C45     N2           3.4353                     .     1_554                 no 
+ C46     N2           3.4037                     .     1_554                 no 
+ C3      H28          3.0600                     .     1_456                 no 
+ C4      H28          2.7200                     .     1_456                 no 
+ C5      H20          2.7500                     .     1_565                 no 
+ C5      H27          2.7500                     .       .                   no 
+ C7      H26          3.0700                     .       .                   no 
+ C8      H26          2.7200                     .       .                   no 
+ C9      H28          2.7500                     .     1_556                 no 
+ C9      H21          2.7500                     .     1_566                 no 
+ C11     H27          3.0700                     .     1_556                 no 
+ C12     H27          2.7200                     .     1_556                 no 
+ C13     H19          2.7600                     .     1_466                 no 
+ C13     H26          2.7600                     .     1_456                 no 
+ C16     H21          3.0700                     .     1_466                 no 
+ C17     H21          2.7200                     .     1_466                 no 
+ C19     H19          3.0700                     .     1_565                 no 
+ C20     H19          2.7200                     .     1_565                 no 
+ C22     H20          3.0700                     .     1_566                 no 
+ C23     H20          2.7200                     .     1_566                 no 
+ C26     H14          3.0600                     .     1_644                 no 
+ C27     H14          2.7200                     .     1_644                 no 
+ C28     H13          2.7500                     .     1_545                 no 
+ C28     H6           2.7500                     .       .                   no 
+ C30     H12          3.0700                     .     1_545                 no 
+ C31     H12          2.7200                     .     1_545                 no 
+ C32     H14          2.7500                     .     1_544                 no 
+ C32     H7           2.7500                     .     1_554                 no 
+ C34     H13          3.0700                     .     1_544                 no 
+ C35     H13          2.7200                     .     1_544                 no 
+ C36     H5           2.7600                     .     1_654                 no 
+ C36     H12          2.7600                     .     1_644                 no 
+ C39     H7           3.0700                     .     1_654                 no 
+ C40     H7           2.7200                     .     1_654                 no 
+ C42     H5           3.0700                     .       .                   no 
+ C43     H5           2.7200                     .       .                   no 
+ C45     H6           3.0700                     .     1_554                 no 
+ C46     H6           2.7200                     .     1_554                 no 
+ H1      H4           2.5900                     .       .                   no 
+ H1      H2           2.5900                     .       .                   no 
+ H1      H3           2.5900                     .       .                   no 
+ H2      H9           2.4800                     .     1_545                 no 
+ H2      H1           2.5900                     .       .                   no 
+ H3      H1           2.5900                     .       .                   no 
+ H3      H10          2.4800                     .     1_545                 no 
+ H4      H1           2.5900                     .       .                   no 
+ H4      H11          2.4800                     .     1_545                 no 
+ H5      C36          2.7600                     .     1_456                 no 
+ H5      C43          2.7200                     .       .                   no 
+ H5      N11          2.6100                     .       .                   no 
+ H5      C42          3.0700                     .       .                   no 
+ H5      O6           1.9700                     .     1_456                 no 
+ H6      O4           1.9700                     .       .                   no 
+ H6      C46          2.7200                     .     1_556                 no 
+ H6      C45          3.0700                     .     1_556                 no 
+ H6      N12          2.6100                     .     1_556                 no 
+ H6      C28          2.7500                     .       .                   no 
+ H7      C39          3.0700                     .     1_456                 no 
+ H7      C32          2.7500                     .     1_556                 no 
+ H7      C40          2.7200                     .     1_456                 no 
+ H7      O5           1.9700                     .     1_556                 no 
+ H7      N10          2.6100                     .     1_456                 no 
+ H8      H10          2.5900                     .       .                   no 
+ H8      H9           2.5900                     .       .                   no 
+ H8      H11          2.5900                     .       .                   no 
+ H9      H2           2.4800                     .     1_565                 no 
+ H9      H8           2.5900                     .       .                   no 
+ H10     H8           2.5900                     .       .                   no 
+ H10     H3           2.4800                     .     1_565                 no 
+ H11     H8           2.5900                     .       .                   no 
+ H11     H4           2.4800                     .     1_565                 no 
+ H12     C36          2.7600                     .     1_466                 no 
+ H12     N8           2.6100                     .     1_565                 no 
+ H12     C30          3.0700                     .     1_565                 no 
+ H12     O6           1.9700                     .     1_466                 no 
+ H12     C31          2.7200                     .     1_565                 no 
+ H13     N9           2.6100                     .     1_566                 no 
+ H13     C28          2.7500                     .     1_565                 no 
+ H13     O4           1.9700                     .     1_565                 no 
+ H13     C35          2.7200                     .     1_566                 no 
+ H13     C34          3.0700                     .     1_566                 no 
+ H14     C32          2.7500                     .     1_566                 no 
+ H14     C27          2.7200                     .     1_466                 no 
+ H14     O5           1.9700                     .     1_566                 no 
+ H14     N7           2.6100                     .     1_466                 no 
+ H14     C26          3.0600                     .     1_466                 no 
+ H15     H16          2.5900                     .       .                   no 
+ H15     H17          2.5900                     .       .                   no 
+ H15     H18          2.5900                     .       .                   no 
+ H16     H15          2.5900                     .       .                   no 
+ H16     H23          2.4800                     .     1_545                 no 
+ H17     H15          2.5900                     .       .                   no 
+ H17     H24          2.4800                     .     1_545                 no 
+ H18     H15          2.5900                     .       .                   no 
+ H18     H25          2.4800                     .     1_545                 no 
+ H19     O3           1.9700                     .     1_644                 no 
+ H19     N5           2.6100                     .     1_545                 no 
+ H19     C13          2.7600                     .     1_644                 no 
+ H19     C19          3.0700                     .     1_545                 no 
+ H19     C20          2.7200                     .     1_545                 no 
+ H20     O1           1.9700                     .     1_545                 no 
+ H20     N6           2.6100                     .     1_544                 no 
+ H20     C5           2.7500                     .     1_545                 no 
+ H20     C22          3.0700                     .     1_544                 no 
+ H20     C23          2.7200                     .     1_544                 no 
+ H21     O2           1.9700                     .     1_544                 no 
+ H21     N4           2.6100                     .     1_644                 no 
+ H21     C9           2.7500                     .     1_544                 no 
+ H21     C16          3.0700                     .     1_644                 no 
+ H21     C17          2.7200                     .     1_644                 no 
+ H22     H23          2.5900                     .       .                   no 
+ H22     H24          2.5900                     .       .                   no 
+ H22     H25          2.5900                     .       .                   no 
+ H23     H16          2.4800                     .     1_565                 no 
+ H23     H22          2.5900                     .       .                   no 
+ H24     H17          2.4800                     .     1_565                 no 
+ H24     H22          2.5900                     .       .                   no 
+ H25     H18          2.4800                     .     1_565                 no 
+ H25     H22          2.5900                     .       .                   no 
+ H26     O3           1.9700                     .     1_654                 no 
+ H26     N2           2.6100                     .       .                   no 
+ H26     C7           3.0700                     .       .                   no 
+ H26     C8           2.7200                     .       .                   no 
+ H26     C13          2.7600                     .     1_654                 no 
+ H27     O1           1.9700                     .       .                   no 
+ H27     N3           2.6100                     .     1_554                 no 
+ H27     C5           2.7500                     .       .                   no 
+ H27     C11          3.0700                     .     1_554                 no 
+ H27     C12          2.7200                     .     1_554                 no 
+ H28     O2           1.9700                     .     1_554                 no 
+ H28     N1           2.6100                     .     1_654                 no 
+ H28     C3           3.0600                     .     1_654                 no 
+ H28     C4           2.7200                     .     1_654                 no 
+ H28     C9           2.7500                     .     1_554                 no 
+
+loop_
+_geom_hbond_atom_site_label_D
+_geom_hbond_atom_site_label_H
+_geom_hbond_atom_site_label_A
+_geom_hbond_distance_DH
+_geom_hbond_distance_HA
+_geom_hbond_distance_DA
+_geom_hbond_angle_DHA
+_geom_hbond_site_symmetry_A
+_geom_hbond_publ_flag
+#
+#D   H   A   D - H  H...A   D...A    D - H...A  symm(A)
+#
+N1      H5      O6          1.0100     1.9700     2.8283     141.00   1_456 yes 
+N1      H5      N11         1.0100     2.6100     3.2739     124.00     .   yes 
+N2      H6      O4          1.0100     1.9700     2.8282     141.00     .   yes 
+N2      H6      N12         1.0100     2.6100     3.2736     124.00   1_556 yes 
+N3      H7      O5          1.0100     1.9700     2.8281     141.00   1_556 yes 
+N3      H7      N10         1.0100     2.6100     3.2739     124.00   1_456 yes 
+N4      H12     O6          1.0100     1.9700     2.8284     141.00   1_466 yes 
+N4      H12     N8          1.0100     2.6100     3.2739     124.00   1_565 yes 
+N5      H13     O4          1.0100     1.9700     2.8282     141.00   1_565 yes 
+N5      H13     N9          1.0100     2.6100     3.2736     124.00   1_566 yes 
+N6      H14     O5          1.0100     1.9700     2.8282     141.00   1_566 yes 
+N6      H14     N7          1.0100     2.6100     3.2739     124.00   1_466 yes 
+N7      H19     O3          1.0100     1.9700     2.8283     141.00   1_644 yes 
+N7      H19     N5          1.0100     2.6100     3.2739     124.00   1_545 yes 
+N8      H20     O1          1.0100     1.9700     2.8282     141.00   1_545 yes 
+N8      H20     N6          1.0100     2.6100     3.2736     124.00   1_544 yes 
+N9      H21     O2          1.0100     1.9700     2.8281     141.00   1_544 yes 
+N9      H21     N4          1.0100     2.6100     3.2739     124.00   1_644 yes 
+N10     H26     O3          1.0100     1.9700     2.8284     141.00   1_654 yes 
+N10     H26     N2          1.0100     2.6100     3.2739     124.00     .   yes 
+N11     H27     O1          1.0100     1.9700     2.8282     141.00     .   yes 
+N11     H27     N3          1.0100     2.6100     3.2736     124.00   1_554 yes 
+N12     H28     O2          1.0100     1.9700     2.8282     141.00   1_554 yes 
+N12     H28     N1          1.0100     2.6100     3.2739     124.00   1_654 yes 
+
+# Loop Mechanism for Extra Tables(s)
+
+#loop_
+#_publ_manuscript_incl_extra_item
+#'_geom_extra_tableA_col_1'
+#'_geom_extra_tableA_col_2'
+#'_geom_extra_tableA_col_3'
+#'_geom_extra_table_head_A'
+#'_geom_table_footnote_A'
+#'_geom_extra_tableB_col_1'
+#'_geom_extra_tableB_col_2'
+#'_geom_extra_tableB_col_3'
+#'_geom_extra_table_head_B'
+#'_geom_table_footnote_B'
+
+
+#
+#loop_
+#_geom_extra_tableA_col_1
+#_geom_extra_tableA_col_2
+#_geom_extra_tableA_col_3
+# ? ? ?
+
+
+#
+#loop_
+#_geom_extra_tableB_col_1
+#_geom_extra_tableB_col_2
+#_geom_extra_tableB_col_3
+# ? ? ?
+
+
+#
+#_geom_table_footnote_A
+#;
+# ?
+#;
+
+
+#
+#_geom_table_footnote_B
+#;
+# ?
+#;
+
+
+#
+#_geom_table_footnote_A
+#;
+# ?
+#;
+
+
+#
+#_geom_table_footnote_B
+#;
+# ?
+#;
+
+
+#===END
