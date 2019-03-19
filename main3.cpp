@@ -19,64 +19,6 @@
 
 #include "niggli.h"
 
-void debug_conversion() {
-	initializeRadTable();
-
-	std::string file = "ZnAlaPyr_open.cif";
-	std::ifstream infile{ file };
-
-	infile.open(file);
-
-	std::string file_contents{ std::istreambuf_iterator<char>(infile), std::istreambuf_iterator<char>() };
-	auto v = io::split(file_contents);
-
-	infile.close();
-
-	std::vector<double> atoms_x;
-	std::vector<double> atoms_y;
-	std::vector<double> atoms_z;
-	std::vector<std::string> atom_names;
-
-	for (int i = 2; i < v.size(); i++) {
-		std::vector<std::string> split;
-		boost::split(split, v[i], boost::is_space());
-
-		for (auto it = split.begin(); it != split.end(); ) {
-			if (it->empty())
-				it = split.erase(it);
-			else {
-				++it;
-			}
-		}
-
-		atom_names.push_back(split[0]);
-		atoms_x.push_back(stod(split[1]));
-		atoms_y.push_back(stod(split[2]));
-		atoms_z.push_back(stod(split[3]));
-	}
-
-	//--- Output .xyz file
-	std::ofstream xyz(file + ".xyz");
-
-	xyz << v[0] << std::endl;
-	xyz << v[1] << std::endl;
-
-	for (auto i = 0; i < atom_names.size(); i++) {
-		xyz << atom_names.at(i) << " " << atoms_x.at(i) << "  " << atoms_y.at(i) << " " << atoms_z.at(i) << std::endl;
-	}
-
-	xyz.close();
-
-	//--- Output .weights file
-	std::ofstream weights(file + ".weights");
-
-	for (auto i = 0; i < atom_names.size(); i++) {
-		weights << radTable[atom_names.at(i)] << std::endl;
-	}
-
-	weights.close();
-}
-
 struct crystal_structure
 {
 	std::vector<std::string> atom_names;
@@ -96,17 +38,15 @@ struct crystal_structure
 
 struct parser_parameters
 {
-	bool show_hydrogen = true;
-	bool trim_unit_cell = false;
-	bool reduce_unit_cell = false;
-	int extension = 1;
-
+	bool show_hydrogen;
+	bool trim_unit_cell;
+	bool reduce_unit_cell;
+	bool check_duplicates;
+	bool offset_by_min;
+	unsigned int extension;
 };
 
 void parse_file(const std::string& filepath, CIFHandler& ch, crystal_structure& cs, parser_parameters& pp) {
-	//const std::string raw_data = io::read_sequential(filepath);
-	//const std::vector<std::string> file_contents = io::split(raw_data);
-
 	auto root = ch.copyCIFrom(cif::read_file(filepath))->blocks[0];
 
 	cs.clear();
@@ -273,8 +213,6 @@ void parse_file(const std::string& filepath, CIFHandler& ch, crystal_structure& 
 				}
 			}
 
-			//if (cf) continue;
-
 			for (int l = 0; l < total_atoms; l++) {
 				if (!cf[l]) {
 					cs.atom_names.push_back(atom_loop->val(i, type_pos));
@@ -290,24 +228,7 @@ void parse_file(const std::string& filepath, CIFHandler& ch, crystal_structure& 
 void perform_orthogonal_conversion(crystal_structure &cs) {
 	Eigen::Matrix3d cell = math::fr2cart({ cs.unit_cell.a, cs.unit_cell.b, cs.unit_cell.c, cs.unit_cell.alpha, cs.unit_cell.beta, cs.unit_cell.gamma });
 
-	//int num_failures = 0;
-	//for (auto av : cs.atom_vectors) {
-	//	for (int i = 0; i < 3; i++)
-	//		if (av(i) < 0 || av(i) > 1)
-	//			num_failures++;
-	//}
-
-	//std::cout << "Num of vertices outside fractional 0-1 range BEFORE ortho: " << num_failures << std::endl;
 	for (auto &atom : cs.atom_vectors) { atom = cell * atom; }
-
-	//num_failures = 0;
-	//for (auto av : cs.atom_vectors) {
-	//	for (int i = 0; i < 3; i++)
-	//		if (av(i) < 0)
-	//			num_failures++;
-	//}
-
-	//std::cout << "Num of vertices outside less than 0 AFTER ortho: " << num_failures << std::endl;
 }
 
 void compute_persistence(const std::string& off_file_points, const std::string& weight_file, const std::string& output_file_diag, int coeff_field_characteristic, Filtration_value min_persistence, int dimension, double tolerance) {
@@ -489,7 +410,7 @@ void compute_persistence(const std::string& off_file_points, const std::string& 
 	}
 }
 
-void output_off(const std::string& off_file, const std::string& weights_file, crystal_structure& cs, bool check_duplicates, bool offset_by_min) {
+void output_off(const std::string& off_file, const std::string& weights_file, crystal_structure& cs, parser_parameters& pp) {
 	std::ofstream off(off_file + ".off");
 	std::ofstream weights(weights_file + ".weights");
 
@@ -497,7 +418,7 @@ void output_off(const std::string& off_file, const std::string& weights_file, cr
 	double miny = 0;
 	double minz = 0;
 
-	if (offset_by_min) {
+	if (pp.offset_by_min) {
 		for (auto i = 0; i < cs.atom_vectors.size(); i++) {
 			if (cs.atom_vectors.at(i)(0) < minx)
 				minx = cs.atom_vectors.at(i)(0);
@@ -522,7 +443,7 @@ void output_off(const std::string& off_file, const std::string& weights_file, cr
 		}
 	}
 
-	if (check_duplicates) {
+	if (pp.check_duplicates) {
 		std::vector<double> x;
 		std::vector<double> y;
 		std::vector<double> z;
@@ -576,14 +497,14 @@ void output_off(const std::string& off_file, const std::string& weights_file, cr
 	off.close();
 }
 
-void output_xyz(const std::string& file, crystal_structure& cs, bool check_duplicates, bool offset_by_min) {
+void output_xyz(const std::string& file, crystal_structure& cs, parser_parameters& pp) {
 	std::ofstream xyz(file + ".xyz");
 	
 	double minx = 0;
 	double miny = 0;
 	double minz = 0;
 
-	if (offset_by_min) {
+	if (pp.offset_by_min) {
 		for (auto i = 0; i < cs.atom_vectors.size(); i++) {
 			if (cs.atom_vectors.at(i)(0) < minx)
 				minx = cs.atom_vectors.at(i)(0);
@@ -608,7 +529,7 @@ void output_xyz(const std::string& file, crystal_structure& cs, bool check_dupli
 		}
 	}
 
-	if (check_duplicates) {
+	if (pp.check_duplicates) {
 		std::vector<double> x;
 		std::vector<double> y;
 		std::vector<double> z;
@@ -657,17 +578,6 @@ void output_xyz(const std::string& file, crystal_structure& cs, bool check_dupli
 	}
 
 	xyz.close();
-}
-
-void output_weights(const std::string& file, crystal_structure& cs) {
-	std::ofstream weights(file + ".weights");
-
-	for (auto i = 0; i < cs.atom_vectors.size(); i++) {
-		auto atom = cs.atom_vectors.at(i);
-		weights << radTable[cs.atom_names.at(i)] << std::endl;
-	}
-
-	weights.close();
 }
 
 /*
@@ -728,9 +638,6 @@ int main(int argc, char* argv[])
 	//folder_data.push_back("YOBPUC.cif");
 	//folder_data.push_back("ZIDYUG.cif");
 
-	std::string output_xyz_path, output_off_path, output_weights_path, output_pers_path;
-	std::string xyz_file, off_file, weights_file, persistence_file;
-
 	initializeRadTable();
 
 	CIFHandler ch;
@@ -743,27 +650,27 @@ int main(int argc, char* argv[])
 	pp.trim_unit_cell = true;
 	pp.reduce_unit_cell = true;
 
-	for (auto file : folder_data) {
-		output_xyz_path = "data/xyz/" + file.substr(0, file.find(".cif"));
-		output_off_path = "data/off/" + file.substr(0, file.find(".cif"));
-		output_weights_path = "data/weights/" + file.substr(0, file.find(".cif"));
-		output_pers_path = "data/pers/" + file.substr(0, file.find(".cif"));
+	pp.check_duplicates = true;
+	pp.offset_by_min = false;
 
-		xyz_file = output_xyz_path + ".xyz";
-		off_file = output_off_path + ".off";
-		weights_file = output_weights_path + ".weights";
-		persistence_file = output_pers_path + ".pers";
+	for (std::string file : folder_data) {
+		const std::string output_xyz_path = "data/xyz/" + file.substr(0, file.find(".cif"));
+		const std::string output_off_path = "data/off/" + file.substr(0, file.find(".cif"));
+		const std::string output_weights_path = "data/weights/" + file.substr(0, file.find(".cif"));
+		const std::string output_pers_path = "data/pers/" + file.substr(0, file.find(".cif"));
+
+		const std::string xyz_file = output_xyz_path + ".xyz";
+		const std::string off_file = output_off_path + ".off";
+		const std::string weights_file = output_weights_path + ".weights";
+		const std::string persistence_file = output_pers_path + ".pers";
 
 		parse_file(cif_path + file, ch, cs, pp);
 		perform_orthogonal_conversion(cs);
 
 		// TODO: use iterator for checking duplicates as it speeds up tremendously
-		//output_xyz(output_xyz_path, cs, true, true);
-		output_off(output_off_path, output_weights_path, cs, true, true);
-		//output_weights(output_weights_path, cs);
+		//output_xyz(output_xyz_path, cs, pp);
+		output_off(output_off_path, output_weights_path, cs, pp);
 
-		// TODO: do something with the tolerance
-		// TODO: fix negative birth values?
 		compute_persistence(off_file, weights_file, output_pers_path, 2, 0, 1, 0.01);
 	}
 
