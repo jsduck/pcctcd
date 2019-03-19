@@ -17,6 +17,8 @@
 
 #include "persistence_helper.h"
 
+#include "niggli.h"
+
 void debug_conversion() {
 	initializeRadTable();
 
@@ -83,12 +85,20 @@ struct crystal_structure
 	{
 		double a, b, c, alpha, beta, gamma, volume;
 	} unit_cell;
+
+	void clear() {
+		atom_names.clear();
+		atom_vectors.clear();
+
+		unit_cell.a = unit_cell.b = unit_cell.c = unit_cell.alpha = unit_cell.beta = unit_cell.gamma = unit_cell.volume = 0;
+	}
 };
 
 struct parser_parameters
 {
 	bool show_hydrogen = true;
 	bool trim_unit_cell = false;
+	bool reduce_unit_cell = false;
 	int extension = 1;
 
 };
@@ -98,7 +108,8 @@ void parse_file(const std::string& filepath, CIFHandler& ch, crystal_structure& 
 	//const std::vector<std::string> file_contents = io::split(raw_data);
 
 	auto root = ch.copyCIFrom(cif::read_file(filepath))->blocks[0];
-	
+
+	cs.clear();
 
 	cs.unit_cell.a = io::stod(*root.find_value("_cell_length_a"));
 	cs.unit_cell.b = io::stod(*root.find_value("_cell_length_b"));
@@ -106,6 +117,26 @@ void parse_file(const std::string& filepath, CIFHandler& ch, crystal_structure& 
 	cs.unit_cell.alpha = io::stod(*root.find_value("_cell_angle_alpha"));
 	cs.unit_cell.beta  = io::stod(*root.find_value("_cell_angle_beta"));
 	cs.unit_cell.gamma = io::stod(*root.find_value("_cell_angle_gamma"));
+
+	if (pp.reduce_unit_cell) {
+		std::vector<double> reduced_values = {
+			cs.unit_cell.a,
+			cs.unit_cell.b,
+			cs.unit_cell.b,
+			cs.unit_cell.alpha,
+			cs.unit_cell.beta,
+			cs.unit_cell.gamma
+		};
+
+		niggli::reduce(reduced_values, 0.0001);
+
+		cs.unit_cell.a = reduced_values[0];
+		cs.unit_cell.b = reduced_values[1];
+		cs.unit_cell.c = reduced_values[2];
+		cs.unit_cell.alpha = reduced_values[3];
+		cs.unit_cell.beta = reduced_values[4];
+		cs.unit_cell.gamma = reduced_values[5];
+	}
 
 	const auto atom_loop = root.find_loop("_atom_site_label").get_loop();
 
@@ -144,7 +175,14 @@ void parse_file(const std::string& filepath, CIFHandler& ch, crystal_structure& 
 	const int sym_size = sym_val_size / sym_tag_size;
 
 	mu::Parser arithmetic_parser;
+	
+	double dx, dy, dz;
 
+	arithmetic_parser.DefineVar("x", &dx);
+	arithmetic_parser.DefineVar("y", &dy);
+	arithmetic_parser.DefineVar("z", &dz);
+
+	int num_failures = 0;
 	for (int k = 0; k < sym_size; k++) {
 		auto sym_group = sym_loop->val(k, sym_pos);
 		std::vector<std::string> sym_equations;
@@ -154,17 +192,15 @@ void parse_file(const std::string& filepath, CIFHandler& ch, crystal_structure& 
 		boost::erase_all(sym_group, "'");
 		boost::split(sym_equations, sym_group, boost::is_any_of(","));
 
+
+		
 		for (int i = 0; i < atoms_size; i++) {
 			if (!pp.show_hydrogen && atom_loop->val(i, type_pos) == "H")
 				continue;
 
-			auto dx = io::stod(atom_loop->val(i, xyz_pos + 0));
-			auto dy = io::stod(atom_loop->val(i, xyz_pos + 1));
-			auto dz = io::stod(atom_loop->val(i, xyz_pos + 2));
-
-			arithmetic_parser.DefineVar("x", &dx);
-			arithmetic_parser.DefineVar("y", &dy);
-			arithmetic_parser.DefineVar("z", &dz);
+			dx = io::stod(atom_loop->val(i, xyz_pos + 0));
+			dy = io::stod(atom_loop->val(i, xyz_pos + 1));
+			dz = io::stod(atom_loop->val(i, xyz_pos + 2));
 
 			std::vector<Eigen::Vector3d> temp_atoms;
 			const int total_atoms = static_cast<int>(pow(pp.extension, 3));
@@ -230,6 +266,13 @@ void parse_file(const std::string& filepath, CIFHandler& ch, crystal_structure& 
 						}
 				}
 
+			if (pp.trim_unit_cell) {
+				for (auto cfv : cf) {
+					if (cfv == true)
+						num_failures++;
+				}
+			}
+
 			//if (cf) continue;
 
 			for (int l = 0; l < total_atoms; l++) {
@@ -240,12 +283,31 @@ void parse_file(const std::string& filepath, CIFHandler& ch, crystal_structure& 
 			}
 		}
 	}
+
+	std::cout << "Num failed trimmings: " << num_failures << std::endl;
 }
 
 void perform_orthogonal_conversion(crystal_structure &cs) {
 	Eigen::Matrix3d cell = math::fr2cart({ cs.unit_cell.a, cs.unit_cell.b, cs.unit_cell.c, cs.unit_cell.alpha, cs.unit_cell.beta, cs.unit_cell.gamma });
 
+	//int num_failures = 0;
+	//for (auto av : cs.atom_vectors) {
+	//	for (int i = 0; i < 3; i++)
+	//		if (av(i) < 0 || av(i) > 1)
+	//			num_failures++;
+	//}
+
+	//std::cout << "Num of vertices outside fractional 0-1 range BEFORE ortho: " << num_failures << std::endl;
 	for (auto &atom : cs.atom_vectors) { atom = cell * atom; }
+
+	//num_failures = 0;
+	//for (auto av : cs.atom_vectors) {
+	//	for (int i = 0; i < 3; i++)
+	//		if (av(i) < 0)
+	//			num_failures++;
+	//}
+
+	//std::cout << "Num of vertices outside less than 0 AFTER ortho: " << num_failures << std::endl;
 }
 
 void compute_persistence(const std::string& off_file_points, const std::string& weight_file, const std::string& output_file_diag, int coeff_field_characteristic, Filtration_value min_persistence, int dimension, double tolerance) {
@@ -350,7 +412,9 @@ void compute_persistence(const std::string& off_file_points, const std::string& 
 
 	// Sort the simplices in the order of the filtration
 	simplex_tree.initialize_filtration();
-	std::cout << "Simplex_tree dim: " << simplex_tree.dimension() << std::endl;
+	auto stfsr = simplex_tree.filtration_simplex_range();
+
+	//std::cout << "Simplex_tree dim: " << simplex_tree.dimension() << std::endl;
 	// Compute the persistence diagram of the complex
 	Persistent_cohomology pcoh(simplex_tree, true);
 	// initializes the coefficient field for homology
@@ -392,6 +456,7 @@ void compute_persistence(const std::string& off_file_points, const std::string& 
 
 	int nchpd = 0;
 	std::vector<int> tccp;
+	std::vector<int> hpvdix;
 	for (int i = 0; i < hpdi; i++) {
 		int cccp  = 0;
 		while (hpvd[i] < tolerance) {
@@ -399,13 +464,16 @@ void compute_persistence(const std::string& off_file_points, const std::string& 
 			cccp++;
 		}
 
-		if (cccp > 0)
+		if (cccp > 0) {
 			tccp.push_back(cccp);
+			hpvdix.push_back(i);
+		}
+			
 	}
 
-	std::cout << "Number of point clusters above widest diagonal gap: " << tccp.size() << std::endl;
+	//std::cout << "Number of point clusters above widest diagonal gap: " << tccp.size() << ", with pv: " << hpd << std::endl;
 	for (int i = 0; i < tccp.size(); i++ ) {
-		std::cout << "\t Cluster " << i + 1 <<  " with : " << tccp[i] << " points" << std::endl;
+		//std::cout << "\t Cluster " << i + 1 <<  " with : " << tccp[i] << " points, pv: " << hpvd[hpvdix[i]] << std::endl;
 	}
 
 	// Output the diagram in filediag
@@ -421,9 +489,38 @@ void compute_persistence(const std::string& off_file_points, const std::string& 
 	}
 }
 
-void output_off(const std::string& off_file, const std::string& weights_file, crystal_structure& cs, bool check_duplicates) {
+void output_off(const std::string& off_file, const std::string& weights_file, crystal_structure& cs, bool check_duplicates, bool offset_by_min) {
 	std::ofstream off(off_file + ".off");
 	std::ofstream weights(weights_file + ".weights");
+
+	double minx = 0;
+	double miny = 0;
+	double minz = 0;
+
+	if (offset_by_min) {
+		for (auto i = 0; i < cs.atom_vectors.size(); i++) {
+			if (cs.atom_vectors.at(i)(0) < minx)
+				minx = cs.atom_vectors.at(i)(0);
+
+			if (cs.atom_vectors.at(i)(1) < miny)
+				minx = cs.atom_vectors.at(i)(1);
+
+			if (cs.atom_vectors.at(i)(2) < minz)
+				minx = cs.atom_vectors.at(i)(2);
+		}
+
+		if (minx < miny)
+			miny = minx;
+
+		if (minz < miny)
+			miny = minz;
+
+		for (auto i = 0; i < cs.atom_vectors.size(); i++) {
+			cs.atom_vectors.at(i)(0) += -miny;
+			cs.atom_vectors.at(i)(1) += -miny;
+			cs.atom_vectors.at(i)(2) += -miny;
+		}
+	}
 
 	if (check_duplicates) {
 		std::vector<double> x;
@@ -479,8 +576,37 @@ void output_off(const std::string& off_file, const std::string& weights_file, cr
 	off.close();
 }
 
-void output_xyz(const std::string& file, crystal_structure& cs, bool check_duplicates) {
+void output_xyz(const std::string& file, crystal_structure& cs, bool check_duplicates, bool offset_by_min) {
 	std::ofstream xyz(file + ".xyz");
+	
+	double minx = 0;
+	double miny = 0;
+	double minz = 0;
+
+	if (offset_by_min) {
+		for (auto i = 0; i < cs.atom_vectors.size(); i++) {
+			if (cs.atom_vectors.at(i)(0) < minx)
+				minx = cs.atom_vectors.at(i)(0);
+
+			if (cs.atom_vectors.at(i)(1) < miny)
+				minx = cs.atom_vectors.at(i)(1);
+
+			if (cs.atom_vectors.at(i)(2) < minz)
+				minx = cs.atom_vectors.at(i)(2);
+		}
+
+		if (minx < miny)
+			miny = minx;
+
+		if (minz < miny)
+			miny = minz;
+
+		for (auto i = 0; i < cs.atom_vectors.size(); i++) {
+			cs.atom_vectors.at(i)(0) += -miny;
+			cs.atom_vectors.at(i)(1) += -miny;
+			cs.atom_vectors.at(i)(2) += -miny;
+		}
+	}
 
 	if (check_duplicates) {
 		std::vector<double> x;
@@ -585,51 +711,62 @@ void program_options(int argc, char *argv[], std::string &off_file_points, std::
 
 int main(int argc, char* argv[])
 {
+	const std::string cif_path = "data/cif/";
+	std::vector<std::string> folder_data;
+	
+	//folder_data.push_back("ZnAlaPyr_open.cif");
+	//folder_data.push_back("ZnAlaPyr_closed.cif");
+	//folder_data.push_back("ARAHIM.cif");
+	//folder_data.push_back("DAXNEY.cif");
+	//folder_data.push_back("DAXNIC.cif");
+	folder_data.push_back("FAWCEN.cif"); // -- Crash
+	//folder_data.push_back("LAJKUE.cif"); // -- Crash
+	//folder_data.push_back("MESGIB.cif");
+	//folder_data.push_back("SODDOE.cif");
+	//folder_data.push_back("WESZOK.cif");
+	//folder_data.push_back("YOBPOW.cif");
+	//folder_data.push_back("YOBPUC.cif");
+	//folder_data.push_back("ZIDYUG.cif");
+
+	std::string output_xyz_path, output_off_path, output_weights_path, output_pers_path;
+	std::string xyz_file, off_file, weights_file, persistence_file;
+
+	initializeRadTable();
+
 	CIFHandler ch;
 	crystal_structure cs;
 	parser_parameters pp;
-	const std::string cif_path = "data/cif/";
-	const std::string file = "ZnAlaPyr_open.cif";
-	//const std::string file = "ZnAlaPyr_closed.cif";
-	//const std::string file = "ARAHIM.cif";
-	//const std::string file = "DAXNEY.cif";
-	//const std::string file = "DAXNIC.cif";
-	//const std::string file = "FAWCEN.cif";
-	//const std::string file = "LAJKUE.cif";
-	//const std::string file = "MESGIB.cif";
-	//const std::string file = "SODDOE.cif";
-	//const std::string file = "WESZOK.cif";
-	//const std::string file = "YOBPOW.cif";
-	//const std::string file = "YOBPUC.cif";
-	//const std::string file = "ZIDYUG.cif";
-	const std::string output_xyz_path = "data/xyz/" + file.substr(0, file.find(".cif"));
-	const std::string output_off_path = "data/off/" + file.substr(0, file.find(".cif"));
-	const std::string output_weights_path = "data/weights/" + file.substr(0, file.find(".cif"));
-	const std::string output_pers_path = "data/pers/" + file.substr(0, file.find(".cif"));
-
-	const std::string xyz_file = output_xyz_path + ".xyz";
-	const std::string off_file = output_off_path + ".off";
-	const std::string weights_file = output_weights_path + ".weights";
-	const std::string persistence_file = output_pers_path + ".pers";
-
-	initializeRadTable();
 
 	pp.show_hydrogen = false;
 	pp.extension = 2;
 
 	pp.trim_unit_cell = true;
+	pp.reduce_unit_cell = true;
 
-	// TODO: account for different space groups other than P1 https://en.wikipedia.org/wiki/Space_group#Table_of_space_groups_in_3_dimensions
-	//parse_file(cif_path + file, ch, cs, pp);
-	//perform_orthogonal_conversion(cs);
+	for (auto file : folder_data) {
+		output_xyz_path = "data/xyz/" + file.substr(0, file.find(".cif"));
+		output_off_path = "data/off/" + file.substr(0, file.find(".cif"));
+		output_weights_path = "data/weights/" + file.substr(0, file.find(".cif"));
+		output_pers_path = "data/pers/" + file.substr(0, file.find(".cif"));
 
-	// TODO: use iterator for checking duplicates as it speeds up tremendously
-	//output_xyz(output_xyz_path, cs, true);
-	//output_off(output_off_path, output_weights_path, cs, true);
-	//output_weights(output_weights_path, cs);
+		xyz_file = output_xyz_path + ".xyz";
+		off_file = output_off_path + ".off";
+		weights_file = output_weights_path + ".weights";
+		persistence_file = output_pers_path + ".pers";
 
-	// TODO: do something with the tolerance
-	compute_persistence(off_file, weights_file, output_pers_path, 2, 0, 1, 0.1);
+		parse_file(cif_path + file, ch, cs, pp);
+		perform_orthogonal_conversion(cs);
+
+		// TODO: use iterator for checking duplicates as it speeds up tremendously
+		//output_xyz(output_xyz_path, cs, true, true);
+		output_off(output_off_path, output_weights_path, cs, true, true);
+		//output_weights(output_weights_path, cs);
+
+		// TODO: do something with the tolerance
+		// TODO: fix negative birth values?
+		compute_persistence(off_file, weights_file, output_pers_path, 2, 0, 1, 0.01);
+	}
+
 
 	return 0;
 }

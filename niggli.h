@@ -108,11 +108,11 @@ struct niggli
 		B = sqrt(B);
 		C = sqrt(C);
 
-		const auto PI = boost::math::constants::pi<double>();
+		const auto mpi = boost::math::constants::pi<double>();
 
-		xi = acos(xi / (B * C) / 2) / PI * 180;
-		eta = acos(eta / (A * C) / 2) / PI * 180;
-		zeta = acos(zeta / (A * B) / 2) / PI * 180;
+		xi = acos(xi / (B * C) / 2) / mpi * 180;
+		eta = acos(eta / (A * C) / 2) / mpi * 180;
+		zeta = acos(zeta / (A * B) / 2) / mpi * 180;
 
 		// printf("NORM:\n a': %.4f b': %.4f c': %.4f \n alpha': %.4f beta': %.4f gamma': %.4f\n", A, B, C, xi, eta, zeta);
 
