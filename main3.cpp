@@ -222,7 +222,7 @@ void parse_file(const std::string& filepath, CIFHandler& ch, crystal_structure& 
 		}
 	}
 
-	std::cout << "Num failed trimmings: " << num_failures << std::endl;
+	//std::cout << "Num failed trimmings: " << num_failures << std::endl;
 }
 
 void perform_orthogonal_conversion(crystal_structure &cs) {
@@ -231,7 +231,28 @@ void perform_orthogonal_conversion(crystal_structure &cs) {
 	for (auto &atom : cs.atom_vectors) { atom = cell * atom; }
 }
 
-void compute_persistence(const std::string& off_file_points, const std::string& weight_file, const std::string& output_file_diag, int coeff_field_characteristic, Filtration_value min_persistence, int dimension, double tolerance) {
+
+std::vector<Point_3> make_points(crystal_structure& cs, parser_parameters& pp) {
+	std::vector<Point_3> lp;
+
+	for (auto atom : cs.atom_vectors) {
+		lp.emplace_back(atom(0), atom(1), atom(2));
+	}
+
+	return lp;
+}
+
+std::vector<double> make_weights(crystal_structure& cs, parser_parameters& pp) {
+	std::vector<double> lw;
+
+	for (auto atom : cs.atom_names) {
+		lw.push_back(radTable[atom]);
+	}
+
+	return lw;
+}
+
+void compute_persistence(crystal_structure& cs, parser_parameters& pp, const std::string& off_file_points, const std::string& weight_file, const std::string& output_file_diag, int coeff_field_characteristic, Filtration_value min_persistence, int dimension, double tolerance) {
 	// Read the OFF file (input file name given as parameter) and triangulate points
 	Gudhi::Points_3D_off_reader<Point_3> off_reader(off_file_points);
 	// Check the read operation was correct
@@ -241,6 +262,18 @@ void compute_persistence(const std::string& off_file_points, const std::string& 
 	}
 	// Retrieve the points
 	std::vector<Point_3> lp = off_reader.get_point_cloud();
+
+	auto tflp = make_points(cs, pp);//
+	auto tflw = make_weights(cs, pp);
+
+	for (int i = 0; i < lp.size(); i++) {
+		if (lp[i] != tflp[i]) {
+			//lp[i] = tflp[i];
+		}
+	}
+
+	//lp = tflp;
+
 	// Read weights information from file
 	std::ifstream weights_ifstr(weight_file);
 	std::vector<Weighted_point_3> wp;
@@ -250,7 +283,7 @@ void compute_persistence(const std::string& off_file_points, const std::string& 
 		wp.reserve(lp.size());
 		// Attempt read the weight in a double format, return false if it fails
 		while ((weights_ifstr >> weight) && (index < lp.size())) {
-			wp.push_back(Weighted_point_3(lp[index], weight));
+			wp.push_back(Weighted_point_3(lp[index], tflw[index]));
 			index++;
 		}
 		if (index != lp.size()) {
@@ -392,9 +425,9 @@ void compute_persistence(const std::string& off_file_points, const std::string& 
 			
 	}
 
-	//std::cout << "Number of point clusters above widest diagonal gap: " << tccp.size() << ", with pv: " << hpd << std::endl;
+	std::cout << "+Number of point clusters above widest diagonal gap: " << tccp.size() << ", with pv: " << hpd << std::endl;
 	for (int i = 0; i < tccp.size(); i++ ) {
-		//std::cout << "\t Cluster " << i + 1 <<  " with : " << tccp[i] << " points, pv: " << hpvd[hpvdix[i]] << std::endl;
+		std::cout << "\t Cluster " << i + 1 <<  " with : " << tccp[i] << " points, pv: " << hpvd[hpvdix[i]] << std::endl;
 	}
 
 	// Output the diagram in filediag
@@ -405,6 +438,7 @@ void compute_persistence(const std::string& off_file_points, const std::string& 
 		std::cout << "Result in file: " << output_file_diag << std::endl;
 		std::ofstream out(output_file_diag + ".xyz");
 		std::ofstream persistence(output_file_diag + ".pers");
+		//pcoh.output_diagram(out);
 		pcoh.output_diagram_xyz(out, persistence, output_file_diag, dimension);
 		out.close();
 	}
@@ -489,6 +523,7 @@ void output_off(const std::string& off_file, const std::string& weights_file, cr
 		for (auto i = 0; i < cs.atom_vectors.size(); i++) {
 			auto atom = cs.atom_vectors.at(i);
 			off << atom(0) << "\t\t" << atom(1) << "\t\t" << atom(2) << std::endl;
+			weights << radTable[cs.atom_names[i]] << std::endl;
 		}
 	}
 
@@ -580,6 +615,7 @@ void output_xyz(const std::string& file, crystal_structure& cs, parser_parameter
 	xyz.close();
 }
 
+
 /*
 void program_options(int argc, char *argv[], std::string &off_file_points, std::string &output_file_diag,
 	int &coeff_field_characteristic, Filtration_value &min_persistence) {
@@ -626,17 +662,17 @@ int main(int argc, char* argv[])
 	
 	//folder_data.push_back("ZnAlaPyr_open.cif");
 	//folder_data.push_back("ZnAlaPyr_closed.cif");
-	//folder_data.push_back("ARAHIM.cif");
-	//folder_data.push_back("DAXNEY.cif");
-	//folder_data.push_back("DAXNIC.cif");
+	folder_data.push_back("ARAHIM.cif");
+	folder_data.push_back("DAXNEY.cif");
+	folder_data.push_back("DAXNIC.cif");
 	folder_data.push_back("FAWCEN.cif"); // -- Crash
-	//folder_data.push_back("LAJKUE.cif"); // -- Crash
-	//folder_data.push_back("MESGIB.cif");
-	//folder_data.push_back("SODDOE.cif");
-	//folder_data.push_back("WESZOK.cif");
-	//folder_data.push_back("YOBPOW.cif");
-	//folder_data.push_back("YOBPUC.cif");
-	//folder_data.push_back("ZIDYUG.cif");
+	folder_data.push_back("LAJKUE.cif"); // -- Crash
+	folder_data.push_back("MESGIB.cif");
+	folder_data.push_back("SODDOE.cif");
+	folder_data.push_back("WESZOK.cif");
+	folder_data.push_back("YOBPOW.cif");
+	folder_data.push_back("YOBPUC.cif");
+	folder_data.push_back("ZIDYUG.cif");
 
 	initializeRadTable();
 
@@ -644,13 +680,13 @@ int main(int argc, char* argv[])
 	crystal_structure cs;
 	parser_parameters pp;
 
-	pp.show_hydrogen = false;
-	pp.extension = 2;
+	pp.show_hydrogen = true;
+	pp.extension = 1;
 
 	pp.trim_unit_cell = true;
-	pp.reduce_unit_cell = true;
+	pp.reduce_unit_cell = false;
 
-	pp.check_duplicates = true;
+	pp.check_duplicates = false;
 	pp.offset_by_min = false;
 
 	for (std::string file : folder_data) {
@@ -668,12 +704,11 @@ int main(int argc, char* argv[])
 		perform_orthogonal_conversion(cs);
 
 		// TODO: use iterator for checking duplicates as it speeds up tremendously
-		//output_xyz(output_xyz_path, cs, pp);
+		output_xyz(output_xyz_path, cs, pp);
 		output_off(output_off_path, output_weights_path, cs, pp);
 
-		compute_persistence(off_file, weights_file, output_pers_path, 2, 0, 1, 0.01);
+		compute_persistence(cs, pp, off_file, weights_file, output_pers_path, 2, 0, 1, 0.01);
 	}
-
 
 	return 0;
 }
