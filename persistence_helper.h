@@ -1,14 +1,25 @@
 #include <boost/variant.hpp>
 #include <gudhi/Simplex_tree.h>
 #include <gudhi/Persistent_cohomology.h>
+#include <gudhi/Persistence_heat_maps.h>
+#include <gudhi/Persistence_landscape.h>
+#include <gudhi/Persistence_landscape_on_grid.h>
+#include <gudhi/Persistence_intervals.h>
+#include <gudhi/Persistence_intervals_with_distances.h>
+#include <gudhi/Persistence_vectors.h>
+#include <gudhi/Persistence_graph.h>
 #include <gudhi/Points_3D_off_io.h>
 #include <CGAL/config.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Regular_triangulation_3.h>
 #include <CGAL/Alpha_shape_3.h>
+#include <CGAL/Alpha_shape_2.h>
 #include <CGAL/Alpha_shape_cell_base_3.h>
 #include <CGAL/Alpha_shape_vertex_base_3.h>
 #include <CGAL/iterator.h>
+#include <CGAL/Fixed_alpha_shape_3.h>
+#include <CGAL/Fixed_alpha_shape_vertex_base_3.h>
+#include <CGAL/Fixed_alpha_shape_cell_base_3.h>
  // For CGAL < 4.11
 #if CGAL_VERSION_NR < 1041100000
 #include <CGAL/Regular_triangulation_euclidean_traits_3.h>
@@ -47,6 +58,7 @@ using Point_3 = Triangulation_3::Bare_point;
 using Weighted_point_3 = Triangulation_3::Weighted_point;
 #endif  // CGAL_VERSION_NR < 1041100000
 using Alpha_shape_3 = CGAL::Alpha_shape_3<Triangulation_3>;
+using Alpha_shape_2 = CGAL::Alpha_shape_2<Triangulation_3>;
 // filtration with alpha values needed type definition
 using Alpha_value_type = Alpha_shape_3::FT;
 using Object = CGAL::Object;
@@ -66,7 +78,11 @@ using Simplex_tree_vertex = ST::Vertex_handle;
 using Alpha_shape_simplex_tree_map = std::map<Alpha_shape_3::Vertex_handle, Simplex_tree_vertex>;
 using Simplex_tree_vector_vertex = std::vector<Simplex_tree_vertex>;
 using Persistent_cohomology = Gudhi::persistent_cohomology::Persistent_cohomology<ST, Gudhi::persistent_cohomology::Field_Zp>;
-
+using Persistent_heatmap = Gudhi::Persistence_representations::Persistence_heat_maps<Gudhi::Persistence_representations::constant_scaling_function>;
+using Persistent_landscape = Gudhi::Persistence_representations::Persistence_landscape;
+using Persistent_landscape_grid = Gudhi::Persistence_representations::Persistence_landscape_on_grid;
+using Persistent_intervals = Gudhi::Persistence_representations::Persistence_intervals;
+using Persistent_vectors = Gudhi::Persistence_representations::Vector_distances_in_diagram<Gudhi::Euclidean_distance>;
 struct cmp_intervals_by_dim_then_length {
 	explicit cmp_intervals_by_dim_then_length(ST * sc)
 		: sc_(sc) { }
