@@ -13,6 +13,7 @@ using namespace std;
  /*
   * Parameters taken from CCDC tables
   * */
+namespace atom {
 static std::map<std::string, double> radTable;
 static std::map<std::string, double> covRadTable;
 static std::map<std::string, double> massTable;
@@ -21,7 +22,7 @@ static std::map<std::string, bool> atomicCharacterTable;
 static std::set<string> periodicTable;
 
 /** Fills the radius table with several default values. */
-void initializeRadTable() {
+inline static void initializeRadTable() {
 	//radTable.insert(pair <string,double> ("Symbol",  vdW_Radius));
 	radTable.insert(pair <string, double>("H", 1.09));
 	radTable.insert(pair <string, double>("D", 1.09));
@@ -142,7 +143,7 @@ void initializeRadTable() {
  * When determining bonding using these radii CCDC advises to use
  * threshold +0.4A
  * */
-void initializeCovRadTable() {
+inline static void initializeCovRadTable() {
 	//covRadTable.insert(pair <string,double> ("Symbol",  Covalent_Radius));
 	covRadTable.insert(pair <string, double>("H", 0.23));
 	covRadTable.insert(pair <string, double>("D", 0.23));
@@ -259,7 +260,7 @@ void initializeCovRadTable() {
 
 /** Fills the mass table with several default values
  ** in units of g/mole. */
-void initializeMassTable() {
+inline static void initializeMassTable() {
 	//massTable.insert(pair <string,double> ("Symbol",  Atomic_Weight));
 	massTable.insert(pair <string, double>("H", 1.008));
 	massTable.insert(pair <string, double>("D", 2.0));
@@ -376,7 +377,7 @@ void initializeMassTable() {
 
 
 /** Fills atom metal/nonmetal information **/
-void  initializeAtomCharacterTable() {
+inline static void  initializeAtomCharacterTable() {
 	// value set to true if atom is metal
 
   //  atomicCharacterTable.insert(pair <string,bool> ("Symbol",true));
@@ -496,7 +497,7 @@ void  initializeAtomCharacterTable() {
 
 /** Fills the atomic number table with atomic number of all elements
  ** */
-void initializeAtomicNumberTable() {
+inline static void initializeAtomicNumberTable() {
 	atomicNumberTable.insert(pair <string, int>("H", 1));
 	atomicNumberTable.insert(pair <string, int>("D", 1));
 	atomicNumberTable.insert(pair <string, int>("He", 2));
@@ -621,7 +622,7 @@ void initializeAtomicNumberTable() {
 
 /** Initialize Periodi Table with atom names to be used to clean atom names from indexes
  * */
-void initializePT() {
+inline static void initializePT() {
 	periodicTable.insert("H");
 	periodicTable.insert("D");
 	periodicTable.insert("He");
@@ -733,4 +734,5 @@ void initializePT() {
 	periodicTable.insert("Hs");
 	periodicTable.insert("Mt");
 	periodicTable.insert("Ds");
+}
 }

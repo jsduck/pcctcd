@@ -8,8 +8,8 @@
 #include <CGAL/draw_triangulation_3.h>
 
 #include "cifio.h"
-#include "math.h"  // NOLINT(modernize-deprecated-headers)
-#include "file.h"
+#include "math_helper.h"  // NOLINT(modernize-deprecated-headers)
+#include "file_helper.h"
 
 #include <muParser.h>
 
@@ -816,7 +816,7 @@ int main(int argc, char* argv[])
 		if (pp.output_off)
 			output_off(off_file, weights_file, cs, pp);
 
-		compute_persistence(cs, os, pp, off_file, weights_file, persistence_file, 2, 0, 1, 1);
+		compute_persistence(cs, os, pp, off_file, weights_file, persistence_file, 2, 0, 1, 0.8);
 	}
 
 	output(os, "result.out");

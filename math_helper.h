@@ -10,11 +10,11 @@
 #define PI boost::math::constants::pi<double>()
 
 namespace math {
-	double mult3(double x, double y, double z) {
+	inline double mult3(double x, double y, double z) {
 		return x * y * z;
 	}
 
-	Eigen::Matrix3d fr2cart(std::vector<double> vals) {
+	inline Eigen::Matrix3d fr2cart(std::vector<double> vals) {
 		// a, b, c, alpha, beta, gamma in this order from 0 to 5
 		Eigen::Matrix3d nm(3, 3);
 		
