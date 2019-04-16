@@ -454,6 +454,9 @@ void Persistence::init_point_sphere_actors() {
 	std::vector<vtkSmartPointer<vtkPolyDataMapper>> sphere_mappers;
 	std::vector<vtkSmartPointer<vtkActor>> sphere_actors;
 
+	//point_sphere_actors_.clear();
+	//point_sphere_sources_.clear();
+
 	auto points = c_.get_orthogonal_points();
 	for (auto& point : points) {
 		vtkSmartPointer<vtkSphereSource> sphere_source = vtkSmartPointer<vtkSphereSource>::New();
@@ -482,6 +485,7 @@ void Persistence::init_point_sphere_actors() {
 		point_sphere_sources_.push_back(sphere_source);
 		sphere_mappers.push_back(sphere_mapper);
 		sphere_actors.push_back(sphere_actor);
+		point_sphere_actors_.push_back(sphere_actor);
 	}
 
 	for (auto &sphere_actor : sphere_actors) {
@@ -490,10 +494,13 @@ void Persistence::init_point_sphere_actors() {
 }
 
 void Persistence::init_radii_sphere_actors() {
-	std::vector<vtkSmartPointer<vtkSphereSource>> sphere_sources;
-	std::vector<std::pair<vtkSmartPointer<vtkSphereSource>, double>> weighted_sphere_sources;
+	//std::vector<vtkSmartPointer<vtkSphereSource>> sphere_sources;
+	//std::vector<std::pair<vtkSmartPointer<vtkSphereSource>, double>> weighted_sphere_sources;
 	std::vector<vtkSmartPointer<vtkPolyDataMapper>> sphere_mappers;
 	std::vector<vtkSmartPointer<vtkActor>> sphere_actors;
+
+	//radii_sphere_actors_.clear();
+	//radii_sphere_sources_.clear();
 
 	auto points = c_.get_orthogonal_points();
 	for (auto& point : points) {
@@ -518,11 +525,12 @@ void Persistence::init_radii_sphere_actors() {
 		sphere_actor->GetProperty()->SetColor(0, 255, 0);
 		sphere_actor->GetProperty()->SetOpacity(0.05);
 
-		sphere_sources.push_back(sphere_source);
+		//sphere_sources.push_back(sphere_source);
 		radii_sphere_sources_.emplace_back(sphere_source, w);
 
 		sphere_mappers.push_back(sphere_mapper);
 		sphere_actors.push_back(sphere_actor);
+		radii_sphere_actors_.push_back(sphere_actor);
 	}
 
 	for (auto &sphere_actor : sphere_actors) {
@@ -598,15 +606,8 @@ void Persistence::init_slider_callback() {
 	slider_widget_->AddObserver(vtkCommand::EndInteractionEvent, callback);
 }
 
-void Persistence::init_atb_callback() {
-	atb_callback_ = vtkSmartPointer<vtkAntTweakBar>::New();
-	atb_callback_->Initialize(inter_);
-	atb_callback_->EnableAlwaysRenderOnEvent();
-}
-
-void Persistence::init_callbacks() {
-	init_slider_callback();
-	
+void Persistence::init_update_callback()
+{
 	vtkSmartPointer<vtkUpdateCallback> update_callback = vtkSmartPointer<vtkUpdateCallback>::New();
 	update_callback->p = this;
 	update_callback->poly_data = complex_source_;
@@ -626,21 +627,42 @@ void Persistence::init_callbacks() {
 	for (auto e : interactorEvents) {
 		inter_->AddObserver(e, update_callback);
 	}
+}
 
+void Persistence::init_atb_callback() {
+	atb_callback_ = vtkSmartPointer<vtkAntTweakBar>::New();
+	atb_callback_->Initialize(inter_);
+	atb_callback_->EnableAlwaysRenderOnEvent();
+}
+
+void Persistence::init_callbacks() {
+	init_slider_callback();
+	init_update_callback();
 	init_atb_callback();
+}
 
-	
+void TW_CALL SetBgColor(const void *value, void *clientData) {
+	auto actor = static_cast<Persistence*>(clientData)->GetRenderer();
+	auto color = static_cast<const float*>(value);
+	actor->SetBackground(color[0], color[1], color[2]);
+}
 
+void TW_CALL GetBgColor(void *value, void *clientData) {
+	auto actor = static_cast<Persistence*>(clientData)->GetRenderer();
+	auto color = static_cast<float*>(value);
+	auto actorColor = actor->GetBackground();
+	for (int i = 0; i < 3; i++)
+		color[i] = (float)actorColor[i];
 }
 
 void TW_CALL SetColor(const void *value, void *clientData) {
-	auto actor = static_cast<vtkActor*>(clientData);
+	auto actor = static_cast<Persistence*>(clientData)->GetComplexActor();
 	auto color = static_cast<const float*>(value);
 	actor->GetProperty()->SetColor(color[0], color[1], color[2]);
 }
 
 void TW_CALL GetColor(void *value, void *clientData) {
-	auto actor = static_cast<vtkActor*>(clientData);
+	auto actor = static_cast<Persistence*>(clientData)->GetComplexActor();
 	auto color = static_cast<float*>(value);
 	auto actorColor = actor->GetProperty()->GetColor();
 	for (int i = 0; i < 3; i++)
@@ -660,6 +682,50 @@ void TW_CALL GetAlpha(void *value, void *clientData) {
 	//auto actorColor = actor->GetProperty()->GetColor();
 	//for (int i = 0; i < 3; i++)
 	//	color[i] = (float)actorColor[i];
+}
+
+void TW_CALL SetDisplayAlpha(const void *value, void *clientData) {
+	auto p = static_cast<Persistence*>(clientData);
+	auto alpha = static_cast<const double*>(value);
+	//actor->GetProperty()->SetColor(color[0], color[1], color[2]);
+	p->set_alpha(*alpha);
+}
+
+void TW_CALL GetDisplayAlpha(void *value, void *clientData) {
+	auto p = static_cast<Persistence*>(clientData);
+	*static_cast<double*>(value) = sqrt(p->get_alpha());
+	//auto actorColor = actor->GetProperty()->GetColor();
+	//for (int i = 0; i < 3; i++)
+	//	color[i] = (float)actorColor[i];
+}
+
+void TW_CALL SetSphColor(const void *value, void *clientData) {
+	auto actor = static_cast<Persistence*>(clientData)->GetRadiiSpheresActors();
+	auto color = static_cast<const float*>(value);
+	for (auto& a : actor) {
+		a->GetProperty()->SetColor(color[0], color[1], color[2]);
+	}
+}
+
+void TW_CALL GetSphColor(void *value, void *clientData) {
+	auto actor = static_cast<Persistence*>(clientData)->GetRadiiSpheresActors();
+	auto color = static_cast<float*>(value);
+	auto actorColor = actor.at(0)->GetProperty()->GetColor();
+	for (int i = 0; i < 3; i++)
+		color[i] = (float)actorColor[i];
+}
+
+void TW_CALL SetSphOpacity(const void *value, void *clientData) {
+	auto actor = static_cast<Persistence*>(clientData)->GetRadiiSpheresActors();
+	auto color = *static_cast<const double*>(value);
+	for (auto& a : actor) {
+		a->GetProperty()->SetOpacity(color);
+	}
+}
+
+void TW_CALL GetSphOpacity(void *value, void *clientData) {
+	auto actor = static_cast<Persistence*>(clientData)->GetRadiiSpheresActors();
+	*static_cast<double*>(value) = actor.at(0)->GetProperty()->GetOpacity();
 }
 
 void TW_CALL SetAlwaysRenderOnEvent(const void *value, void *clientData) {
@@ -692,172 +758,7 @@ void Persistence::display_complex() {
 
 	init_callbacks();
 
-	//vtkSmartPointer<vtkPolyData> polydata = get_polydata(alpha_vals_[0]);
-	//vtkSmartPointer<vtkPolyData> poly_data = get_poly_data(as_, 2.f/sqrt(3));
 	vtkSmartPointer<vtkNamedColors> colors = vtkSmartPointer<vtkNamedColors>::New();
-
-	//vtkSmartPointer<vtkPolyDataMapper> mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
-	//mapper->SetInputData(poly_data);
-
-	//vtkSmartPointer<vtkActor> actor = vtkSmartPointer<vtkActor>::New();
-	//actor->SetMapper(mapper);
-	//actor->GetProperty()->SetColor(colors->GetColor3d("Silver").GetData());
-
-	//renwin->SetWindowName("complex");
-	//renwin->SetSize(1280, 720);
-	//renwin->AddRenderer(renderer);
-
-	//renderer->AddActor(actor);
-	//renderer->SetBackground(colors->GetColor3d("Salmon").GetData());
-
-	//std::sort(alpha_vals_.begin(), alpha_vals_.end());
-
-	//std::cout << alpha_vals_[0] << std::endl;
-
-	//renwin->Render();
-	//renwin_interactor->Start();
-
-	/*vtkSmartPointer<vtkSliderRepresentation2D> sliderRep = vtkSmartPointer<vtkSliderRepresentation2D>::New();
-
-
-	double max_alpha = 0;
-	double min_alpha = std::numeric_limits<double>::max();
-	for (auto i = as_->alpha_begin(); i != as_->alpha_end(); ++i) {
-		if (*i > max_alpha) {
-			max_alpha = *i;
-		}
-		if (*i < min_alpha) {
-			min_alpha = *i;
-		}
-	}
-
-	double max_death = 0;
-	for (auto pair : pairs_) {
-		if (pair.second > max_death)
-			max_death = pair.second;
-	}
-
-
-	sliderRep->SetMinimumValue(0);
-	sliderRep->SetMaximumValue(sqrt(max_death + 1));
-	sliderRep->SetValue(0);
-	//sliderRep->SetValue(alpha_vals[0]);
-
-	//sliderRep->SetTitleText("Alpha value");
-	sliderRep->GetSliderProperty()->SetColor(1, 0, 0);//red
-	sliderRep->GetTitleProperty()->SetColor(1, 0, 0);//red
-	sliderRep->GetLabelProperty()->SetColor(1, 0, 0);//red
-	sliderRep->GetSelectedProperty()->SetColor(0, 1, 0);//green
-	sliderRep->GetTubeProperty()->SetColor(1, 1, 0);//yellow
-
-	// Change the color of the ends of the bar
-	sliderRep->GetCapProperty()->SetColor(1, 1, 0);//yellow
-	sliderRep->GetPoint1Coordinate()->SetCoordinateSystemToDisplay();
-	sliderRep->GetPoint1Coordinate()->SetValue(40, 40);
-	sliderRep->GetPoint2Coordinate()->SetCoordinateSystemToDisplay();
-	sliderRep->GetPoint2Coordinate()->SetValue(740, 40);
-
-	vtkSmartPointer<vtkSliderWidget> sliderWidget = vtkSmartPointer<vtkSliderWidget>::New();
-	sliderWidget->SetInteractor(renwin_interactor);
-	sliderWidget->SetRepresentation(sliderRep);
-	sliderWidget->SetAnimationModeToAnimate();
-	sliderWidget->EnabledOn();
-
-	// sphere stuff
-	std::vector<vtkSmartPointer<vtkSphereSource>> sphere_sources;
-	std::vector<std::pair<vtkSmartPointer<vtkSphereSource>, double>> weighted_sphere_sources;
-
-	std::vector<vtkSmartPointer<vtkPolyDataMapper>> sphere_mappers;
-	std::vector<vtkSmartPointer<vtkActor>> sphere_actors;
-
-
-	std::vector<vtkSmartPointer<vtkSphereSource>> sphere_sources1;
-	std::vector<vtkSmartPointer<vtkPolyDataMapper>> sphere_mappers1;
-	std::vector<vtkSmartPointer<vtkActor>> sphere_actors1;
-	*/
-	//auto cpoints = c_.get_points();
-	/*auto opoints = c_.get_orthogonal_points();
-	//auto cweights = c_.get_vdW_weights();
-
-	std::vector<int> sphere_pointids;
-	for (auto point : opoints) {
-		vtkSmartPointer<vtkSphereSource> sphere_source = vtkSmartPointer<vtkSphereSource>::New();
-		vtkSmartPointer<vtkPolyDataMapper> sphere_mapper = vtkSmartPointer<vtkPolyDataMapper>::New();
-		vtkSmartPointer<vtkActor> sphere_actor = vtkSmartPointer<vtkActor>::New();
-
-		sphere_mapper->SetInputConnection(sphere_source->GetOutputPort());
-		sphere_actor->SetMapper(sphere_mapper);
-
-		double x = point.first[0];
-		double y = point.first[1];
-		double z = point.first[2];
-		double w = point.second;
-
-		sphere_source->SetCenter(x, y, z);
-		sphere_source->SetRadius(w);
-
-		sphere_source->SetPhiResolution(12);
-		sphere_source->SetThetaResolution(12);
-
-		sphere_actor->GetProperty()->SetColor(0, 255, 0);
-		sphere_actor->GetProperty()->SetOpacity(0.25);
-
-		sphere_sources.push_back(sphere_source);
-		weighted_sphere_sources.emplace_back(sphere_source, w);
-
-		sphere_mappers.push_back(sphere_mapper);
-		sphere_actors.push_back(sphere_actor);
-
-		vtkSmartPointer<vtkSphereSource> sphere_source1 = vtkSmartPointer<vtkSphereSource>::New();
-		vtkSmartPointer<vtkPolyDataMapper> sphere_mapper1 = vtkSmartPointer<vtkPolyDataMapper>::New();
-		vtkSmartPointer<vtkActor> sphere_actor1 = vtkSmartPointer<vtkActor>::New();
-
-		sphere_mapper1->SetInputConnection(sphere_source1->GetOutputPort());
-		sphere_actor1->SetMapper(sphere_mapper1);
-
-		sphere_source1->SetCenter(x, y, z);
-		sphere_source1->SetRadius(0.1);
-
-		sphere_source1->SetPhiResolution(12);
-		sphere_source1->SetThetaResolution(12);
-	
-		sphere_actor1->GetProperty()->SetColor(255, 0, 0);
-		sphere_actor1->GetProperty()->SetOpacity(1);
-
-		sphere_sources1.push_back(sphere_source1);
-		sphere_mappers1.push_back(sphere_mapper1);
-		sphere_actors1.push_back(sphere_actor1);
-	}
-
-	for (auto &sphere_actor : sphere_actors) {
-		//renderer->AddActor(sphere_actor);
-	}
-
-	for (auto &sphere_actor : sphere_actors1) {
-		renderer->AddActor(sphere_actor);
-	}*/
-	// callback stuff
-	/*vtkSmartPointer<vtkSliderCallback> callback = vtkSmartPointer<vtkSliderCallback>::New();
-	
-	callback->p = this;
-	callback->poly_data = poly_data;
-	//callback->spheres = sphere_sources;
-	callback->weighted_spheres = weighted_sphere_sources;
-	//callback->text = text_ptr;
-
-	sliderWidget->AddObserver(vtkCommand::EndInteractionEvent, callback);
-	*/
-	/*renwin_interactor->Initialize();
-	
-	atb_cb->Initialize(renwin_interactor);
-
-	
-	atb_cb->EnableAlwaysRenderOnEvent();
-
-	
-	renwin->Render();
-
-	renwin_interactor->Start();*/
 
 	ren_->SetBackground(colors->GetColor3d("Salmon").GetData());
 
@@ -866,15 +767,22 @@ void Persistence::display_complex() {
 	TwBar* bar = TwNewBar("Options");
 	TwDefine(" GLOBAL help='This example shows how to integrate AntTweakBar with VTK.' ");
 
-
-	TwDefine(" GLOBAL help='This example shows how to integrate AntTweakBar with VTK.' ");
-
-	TwAddVarCB(bar, "Complex Color", TW_TYPE_COLOR3F, SetColor, GetColor, complex_actor_,
+	TwAddVarCB(bar, "background color", TW_TYPE_COLOR3F, SetBgColor, GetBgColor, this,
 		" help='Change the color of the complex' ");
-	TwAddVarCB(bar, "Alpha value", TW_TYPE_DOUBLE, SetAlpha, GetAlpha, this,
-		" help='Change the value of alpha' ");
+	TwAddVarCB(bar, "complex color", TW_TYPE_COLOR3F, SetColor, GetColor, this,
+		" help='Change the color of the complex' ");
 	TwAddSeparator(bar, "", "");
-	TwAddVarCB(bar, "Render On Event", TW_TYPE_BOOLCPP, SetAlwaysRenderOnEvent, GetAlwaysRenderOnEvent, atb_callback_,
+	TwAddVarCB(bar, "alpha", TW_TYPE_DOUBLE, SetAlpha, GetAlpha, this,
+		" help='Change the value of alpha' ");
+	TwAddVarCB(bar, "display alpha", TW_TYPE_DOUBLE, SetDisplayAlpha, GetDisplayAlpha, this,
+		" help='Change the value of display alpha' ");
+	TwAddSeparator(bar, "", "");
+	TwAddVarCB(bar, "sphere color", TW_TYPE_COLOR3F, SetSphColor, GetSphColor, this,
+		" help='Change the color of the complex' ");
+	TwAddVarCB(bar, "sphere opacity", TW_TYPE_DOUBLE, SetSphOpacity, GetSphOpacity, this,
+		" help='Change the value of alpha' min=0 max=1 step=0.05");
+	TwAddSeparator(bar, "", "");
+	TwAddVarCB(bar, "render on event", TW_TYPE_BOOLCPP, SetAlwaysRenderOnEvent, GetAlwaysRenderOnEvent, atb_callback_,
 		" true='Always' false='If handled' help=`Specify vtkAntTweakBar's behaviour.` ");
 
 	//inter_->AddObserver(vtkCommand::AnyEvent, vtkUpdateCallback);

@@ -36,6 +36,7 @@ public:
 	void init_slider();
 	void init_widgets();
 	void init_slider_callback();
+	void init_update_callback();
 	void init_atb_callback();
 	void init_callbacks();
 	void display_complex();
@@ -63,6 +64,12 @@ public:
 
 	double get_alpha() const { return alpha_; }
 
+	vtkActor* GetComplexActor() const { return complex_actor_; }
+	vtkRenderer* GetRenderer() const { return ren_; }
+	vtkRenderWindow* GetRenderWindow() const { return win_; }
+
+	std::vector<vtkActor*> GetRadiiSpheresActors() const { return radii_sphere_actors_; }
+
 private:
 	bool update_flag = false;
 	Crystal c_;
@@ -82,6 +89,9 @@ private:
 	vtkSmartPointer<vtkActor> complex_actor_;
 	vtkSmartPointer<vtkPolyData> complex_source_;
 
+	std::vector<vtkActor*> point_sphere_actors_;
+	std::vector<vtkActor*> radii_sphere_actors_;
+
 	std::vector<vtkSphereSource*> point_sphere_sources_;
 	std::vector<std::pair<vtkSphereSource*, double>> radii_sphere_sources_; 
 
@@ -90,6 +100,7 @@ private:
 	friend class vtkSliderCallback;
 	friend class vtkUpdateCallback;
 
+	//vtkSmartPointer<vtkUpdateCallback> update_callback_;
 	vtkSmartPointer<vtkAntTweakBar> atb_callback_;
 
 	//friend void TW_CALL set_alpha(const void * alpha, void * data);
