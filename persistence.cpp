@@ -7,80 +7,13 @@
 
 //#include "vtkAntTweakBar.hpp"
 
-#include "vtkAutoInit.h" 
-//#include "atom_data.h"
-VTK_MODULE_INIT(vtkRenderingOpenGL2); // VTK was built with vtkRenderingOpenGL2
-VTK_MODULE_INIT(vtkInteractionStyle);
-VTK_MODULE_INIT(vtkRenderingFreeType);
+//#include "vtkSliderCallback.h"
+#include "vtkUpdateCallback.h"
 
-class vtkSliderCallback : public vtkCommand
-{
-public:
-	static vtkSliderCallback *New() { return new vtkSliderCallback; }
-	virtual void Execute(vtkObject *caller, unsigned long, void*)
-	{
-		vtkSliderWidget *slider_widget =
-			reinterpret_cast<vtkSliderWidget*>(caller);
 
-		double val = pow(static_cast<vtkSliderRepresentation *>(slider_widget->GetRepresentation())->GetValue(), 2);
-		p->alpha_ = val;
-		//sliderWidget->GetRepresentation()->
 
-		p->update_flag = true;
-
-	}
-	//vtkPolyData* poly_data;
-	Persistence* p;
-	////std::vector<vtkSmartPointer<vtkSphereSource>> spheres;
-	//std::vector<std::pair<vtkSphereSource*, double>> weighted_spheres;
-};
-
-class vtkUpdateCallback : public vtkCommand
-{
-public:
-	static vtkUpdateCallback *New() { return new vtkUpdateCallback; }
-	virtual void Execute(vtkObject *caller, unsigned long, void*)
-	{
-		//vtkRenderWindowInteractor* interactor =
-		//	reinterpret_cast<vtkRenderWindowInteractor*>(caller);
-		//std::cout << p->update_flag << std::endl;
-		if (p->update_flag) {
-			p->update_poly_data(p->as_, p->alpha_);
-			auto pd = p->complex_source_;
-			poly_data->SetPoints(pd->GetPoints());
-			poly_data->SetPolys(pd->GetPolys());
-			poly_data->SetLines(pd->GetLines());
-
-			//auto points = p_->get_points();
-			for (auto &sphere : weighted_spheres) {
-				//sphere->SetRadius(alpha); // + points[i].weight()
-				sphere.first->SetRadius(sqrt(p->alpha_ + sphere.second));
-			}
-
-			p->update_flag = false;
-		}
-
-		//sliderWidget->GetRepresentation()->
-
-		/*p->update_poly_data(p->as_, val);
-		auto pd = p->complex_source_;
-		poly_data->SetPoints(pd->GetPoints());
-		poly_data->SetPolys(pd->GetPolys());
-		poly_data->SetLines(pd->GetLines());
-
-		//auto points = p_->get_points();
-		for (auto &sphere : weighted_spheres) {
-			//sphere->SetRadius(alpha); // + points[i].weight()
-			sphere.first->SetRadius(sqrt(val + sphere.second));
-		}
-		*/
-	}
-
-	vtkPolyData* poly_data;
-	Persistence* p;
-	//std::vector<vtkSmartPointer<vtkSphereSource>> spheres;
-	std::vector<std::pair<vtkSphereSource*, double>> weighted_spheres;
-};
+//#define CLUSTERS_ENABLED
+#define USE_DEPRECATED
 
 Persistence::Persistence(Crystal& c) {
 	c_ = c;
@@ -102,34 +35,44 @@ struct cmp_intervals_by_dim_then_length {
 	ST* sc_;
 };
 
-void Persistence::calculate(std::string off_file_points, std::string output_file_diag, int coeff_field_characteristic, Filtration_value min_persistence) {
-
-	//Gudhi::Points_3D_off_reader<Point_3> off_reader(off_file_points);
-	// Check the read operation was correct
-	//if (!off_reader.is_valid()) {
-	//	std::cerr << "Unable to read OFF file " << off_file_points << std::endl;
-	//	exit(-1);
-	//}
-	// Retrieve the points
-	//std::vector<Point_3> lp = off_reader.get_point_cloud();
-
-	//std::ifstream weights_ifstr(weight_file);
+void Persistence::calculate(std::string off_file_points, std::string output_file_diag, int coeff_field_characteristic, Filtration_value min_persistence) 
+{
+	//c_.output_off("test");
+	c_.output_off("temp");
 	std::vector<Weighted_point_3> wp;
-	//auto points = c_.get_points();
 	auto points = c_.get_orthogonal_points();
-	std::vector<double> weights = c_.get_vdW_weights();
-	for (auto point : points) {
-		wp.emplace_back(point.first, point.second);
+	auto vdw = c_.get_vdW_weights();
+#ifdef USE_DEPRECATED
+	Gudhi::Points_3D_off_reader<Point_3> off_reader("temp");
+	// Check the read operation 
+	// Retrieve the points
+	std::vector<Point_3> lp = off_reader.get_point_cloud();
+	int i = 0;
+	for (auto w : vdw) {
+		//wp.emplace_back()
+		wp.emplace_back(lp[i++], 0);
 	}
-	//for (int i = 0; i < lp.size(); i++) {
-		//wp.emplace_back(Point_3(points[i].x, points[i].y, points[i].z), weights[i]);
+#else
+	auto pts = c_.get_atoms();
+
+	int i = 0;
+	for (auto p : pts) {
+		wp.emplace_back(Point_3(p.second(0), p.second(1), p.second(2)), atom::radTable[p.first]);
+	}
+
+	//for (auto point : points) {
+	//	wp.emplace_back(point.first, point.second);
 	//}
-	// alpha shape construction from points. CGAL has a strange behavior in REGULARIZED mode.
-	//Alpha_shape_3 as(wp.begin(), wp.end(), 0, Alpha_shape_3::GENERAL);
+#endif
+	
+
 	as_->set_mode(Alpha_shape_3::GENERAL);
 	as_->set_alpha(0);
+	//std::cout << "Before alpha shape" << std::endl;
+	auto ps = c_.get_point_set();
 	as_->make_alpha_shape(wp.begin(), wp.end());
-	
+	//std::cout << "After alpha shape" << std::endl;
+
 	for (auto i = as_->alpha_begin(); i != as_->alpha_end(); ++i) {
 		alpha_vals_.push_back(*i);
 	}
@@ -139,41 +82,39 @@ void Persistence::calculate(std::string off_file_points, std::string output_file
 	std::vector<Alpha_value_type> the_alpha_values;
 	Dispatch disp = CGAL::dispatch_output<Object, Alpha_value_type>(std::back_inserter(the_objects),
 		std::back_inserter(the_alpha_values));
+	//std::cout << "Before filtration" << std::endl;
 	as_->filtration_with_alpha_values(disp);
+	//std::cout << "After filtration" << std::endl;
 	Alpha_shape_3::size_type count_vertices = 0;
 	Alpha_shape_3::size_type count_edges = 0;
 	Alpha_shape_3::size_type count_facets = 0;
 	Alpha_shape_3::size_type count_cells = 0;
 	// Loop on objects vector
 	Vertex_list vertex_list;
-	ST simplex_tree;
-	Alpha_shape_simplex_tree_map map_cgal_simplex_tree;
+	Gudhi::Simplex_tree<Gudhi::Simplex_tree_options_fast_persistence> simplex_tree;
+	std::map<Alpha_shape_3::Vertex_handle, Simplex_tree_vertex> map_cgal_simplex_tree;
 	std::vector<Alpha_value_type>::iterator the_alpha_value_iterator = the_alpha_values.begin();
 	for (auto object_iterator : the_objects) {
 		// Retrieve Alpha shape vertex list from object
 		if (const Cell_handle *cell = CGAL::object_cast<Cell_handle>(&object_iterator)) {
 			vertex_list = from_cell<Vertex_list, Cell_handle>(*cell);
-			count_cells++;
 		}
 		else if (const Facet *facet = CGAL::object_cast<Facet>(&object_iterator)) {
 			vertex_list = from_facet<Vertex_list, Facet>(*facet);
-			count_facets++;
 		}
 		else if (const Edge_3 *edge = CGAL::object_cast<Edge_3>(&object_iterator)) {
 			vertex_list = from_edge<Vertex_list, Edge_3>(*edge);
-			count_edges++;
 		}
 		else if (const Vertex_handle *vertex = CGAL::object_cast<Vertex_handle>(&object_iterator)) {
-			count_vertices++;
 			vertex_list = from_vertex<Vertex_list, Vertex_handle>(*vertex);
 		}
 		// Construction of the vector of simplex_tree vertex from list of alpha_shapes vertex
-		Simplex_tree_vector_vertex the_simplex;
+		std::vector<ST::Vertex_handle> the_simplex;
 		for (auto the_alpha_shape_vertex : vertex_list) {
-			Alpha_shape_simplex_tree_map::iterator the_map_iterator = map_cgal_simplex_tree.find(the_alpha_shape_vertex);
+			auto the_map_iterator = map_cgal_simplex_tree.find(the_alpha_shape_vertex);
 			if (the_map_iterator == map_cgal_simplex_tree.end()) {
 				// alpha shape not found
-				Simplex_tree_vertex vertex = map_cgal_simplex_tree.size();
+				ST::Vertex_handle vertex = map_cgal_simplex_tree.size();
 				the_simplex.push_back(vertex);
 				map_cgal_simplex_tree.emplace(the_alpha_shape_vertex, vertex);
 			}
@@ -184,12 +125,10 @@ void Persistence::calculate(std::string off_file_points, std::string output_file
 			}
 		}
 		// Construction of the simplex_tree
-		Filtration_value filtr = /*std::sqrt*/ (*the_alpha_value_iterator);
+		ST::Filtration_value filtr = /*std::sqrt*/ (*the_alpha_value_iterator);
 		simplex_tree.insert_simplex(the_simplex, filtr);
 		if (the_alpha_value_iterator != the_alpha_values.end())
 			++the_alpha_value_iterator;
-		else
-			std::cout << "This shall not happen" << std::endl;
 	}
 	// Sort the simplices in the order of the filtration
 	simplex_tree.initialize_filtration();
@@ -250,19 +189,18 @@ void Persistence::calculate_clusters(double tolerance)
 	}
 }
 
-void Persistence::output_complex(const std::string& path)
-{
+void Persistence::output_complex(const std::string& path) const {
 	// Write the file
-	vtkSmartPointer<vtkXMLPolyDataWriter> writer = vtkSmartPointer<vtkXMLPolyDataWriter>::New();
-	writer->SetFileName(path.c_str());
-	writer->SetInputData(complex_source_);
-	writer->Write();
+	//vtkSmartPointer<vtkXMLPolyDataWriter> writer = vtkSmartPointer<vtkXMLPolyDataWriter>::New();
+	//writer->SetFileName(path.c_str());
+	//writer->SetInputData(complex_source_);
+	//writer->Write();
 }
 
 void Persistence::output_pairs(const std::string& path)
 {
 	std::ofstream out(path);
-	std::cout << "Result in file: " << path << std::endl;
+	//std::cout << "-Result in file: " << path << std::endl;
 
 	for (auto pair : pairs_) {
 		auto fc = pair.first;
@@ -281,6 +219,7 @@ void Persistence::output(const std::string& path)
 	//PAIR - PAIR_BD - PAIR HOLE IN CLUSTER - PAIR CLUSTERS
 	std::ofstream out(path, std::ofstream::out | std::ofstream::app);
 
+#ifdef CLUSTERS_ENABLED
 	out << pairs_[0].first << "," << pairs_[0].second << "\t\t" <<
 		pairs_vals_[0] << "\t\t" <<
 		clusters_.size() << "\t\t";
@@ -291,19 +230,18 @@ void Persistence::output(const std::string& path)
 	for (auto &pair : pairs_) {
 		out << pair.first << " " << pair.second << std::endl;
 	}
-
+#else
+	out << pairs_[0].first << "\t\t" << pairs_[0].second << "\t\t" << pairs_[0].second - pairs_[0].first << std::endl;
+#endif
 	out.close();
 }
 
-void Persistence::update_point_map(Alpha_shape_3 * alpha_shape) {
+void Persistence::update_point_map(Alpha_shape_3 * alpha_shape) 
+{
 	point_map_.clear();
-
-	//std::vector<vtkIdType> point_ids;
 
 	vtkIdType id = 0;
 	for (auto i = alpha_shape->points_begin(); i != alpha_shape->points_end(); ++i) {
-		//auto p = i->point();
-
 		if (point_map_.find(*i) == point_map_.end()) {
 			point_map_.emplace(*i, id++);
 		}
@@ -313,11 +251,7 @@ void Persistence::update_point_map(Alpha_shape_3 * alpha_shape) {
 vtkSmartPointer<vtkPoints> Persistence::get_alpha_points(Alpha_shape_3 * alpha_shape)
 {
 	vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
-
-	vtkIdType id = 0;
 	for (auto i = alpha_shape->points_begin(); i != alpha_shape->points_end(); ++i) {
-		//auto p = *i;
-
 		if (point_map_.find(*i) != point_map_.end()) {
 			points->InsertNextPoint(i->x(), i->y(), i->z());
 		}
@@ -326,13 +260,13 @@ vtkSmartPointer<vtkPoints> Persistence::get_alpha_points(Alpha_shape_3 * alpha_s
 	return points;
 }
 
-vtkSmartPointer<vtkCellArray> Persistence::get_alpha_edges(Alpha_shape_3 * alpha_shape)
+vtkSmartPointer<vtkCellArray> Persistence::get_alpha_edges(Alpha_shape_3 * alpha_shape, Alpha_shape_3::Classification_type type)
 {
 	vtkSmartPointer<vtkCellArray> lines = vtkSmartPointer<vtkCellArray>::New();
 	std::vector<vtkSmartPointer<vtkLine>> poly_lines;
 
 	std::vector<Edge_3> edges;
-	alpha_shape->get_alpha_shape_edges(std::back_inserter(edges), Alpha_shape_3::SINGULAR, alpha_shape->get_alpha());
+	alpha_shape->get_alpha_shape_edges(std::back_inserter(edges), type, alpha_shape->get_alpha());
 	for (auto &edge : edges) {
 		if (alpha_shape->is_infinite(edge))
 			continue;
@@ -354,7 +288,6 @@ vtkSmartPointer<vtkCellArray> Persistence::get_alpha_edges(Alpha_shape_3 * alpha
 			line->GetPointIds()->SetId(i, line_ids[i]);
 		}
 
-		//edges_ids.push_back(line_ids);
 		poly_lines.push_back(line);
 	}
 
@@ -391,6 +324,9 @@ vtkSmartPointer<vtkCellArray> Persistence::get_alpha_faces(Alpha_shape_3* alpha_
 		}
 
 		//faces_ids.push_back(face_ids);
+		if (vertex_list.size() != 3) {
+			std::cout << vertex_list.size() << std::endl;
+		}
 		poly_faces.push_back(face);
 	}
 
@@ -419,21 +355,61 @@ vtkSmartPointer<vtkPolyData> Persistence::update_poly_data(Alpha_shape_3 *alpha_
 	return complex_source_;
 }
 
+void Persistence::clean() {
+	c_.clear();
+
+	as_->clear();
+	pairs_.erase(pairs_.begin(), pairs_.end());
+	point_map_.erase(point_map_.begin(), point_map_.end());
+	points_.erase(points_.begin(), points_.end());
+	pairs_vals_.erase(pairs_vals_.begin(), pairs_vals_.end());
+	alpha_vals_.erase(alpha_vals_.begin(), alpha_vals_.end());
+
+	if (render_flag) {
+		ren_->Delete();
+		win_->Delete();
+		inter_->Delete();
+
+		complex_actor_->Delete();
+		complex_source_->Delete();
+
+		point_sphere_actors_.erase(point_sphere_actors_.begin(), point_sphere_actors_.end());
+		radii_sphere_actors_.erase(radii_sphere_actors_.begin(), radii_sphere_actors_.end());
+
+		point_sphere_sources_.erase(point_sphere_sources_.begin(), point_sphere_sources_.end());
+		radii_sphere_sources_.erase(radii_sphere_sources_.begin(), radii_sphere_sources_.end());
+
+
+		atb_callback_->Delete();
+	}
+}
+
 void Persistence::init_win() {
 	win_ = vtkSmartPointer<vtkRenderWindow>::New();
 	win_->SetWindowName("complex");
-	win_->SetSize(1280, 720);
+	win_->SetSize(1680, 900);
 	//renwin->AddRenderer(renderer);
 }
 
 void Persistence::init_ren()
 {
+	vtkSmartPointer<vtkNamedColors> colors = vtkSmartPointer<vtkNamedColors>::New();
+
 	ren_ = vtkSmartPointer<vtkRenderer>::New();
+	ren_->SetBackground(colors->GetColor3d("White").GetData());
 
 	win_->AddRenderer(ren_);
 	
 	inter_ = vtkSmartPointer<vtkRenderWindowInteractor>::New();
 	inter_->SetRenderWindow(win_);
+}
+
+void Persistence::init_camera()
+{
+	auto style = vtkSmartPointer<vtkInteractorStyleTrackballCamera>::New();
+	inter_->SetInteractorStyle(style);
+
+	ren_->ResetCamera();
 }
 
 void Persistence::init_complex_actor() {
@@ -444,7 +420,7 @@ void Persistence::init_complex_actor() {
 
 	complex_actor_ = vtkSmartPointer<vtkActor>::New();
 	complex_actor_->SetMapper(mapper);
-	complex_actor_->GetProperty()->SetColor(colors->GetColor3d("Silver").GetData());
+	complex_actor_->GetProperty()->SetColor(colors->GetColor3d("Red").GetData());
 
 	ren_->AddActor(complex_actor_);
 }
@@ -545,7 +521,7 @@ void Persistence::init_actors() {
 }
 
 void Persistence::init_slider() {
-	vtkSmartPointer<vtkSliderRepresentation2D> slider_rep = vtkSmartPointer<vtkSliderRepresentation2D>::New();
+	//vtkSmartPointer<vtkSliderRepresentation2D> slider_rep = vtkSmartPointer<vtkSliderRepresentation2D>::New();
 
 	double max_alpha = 0;
 	double min_alpha = std::numeric_limits<double>::max();
@@ -564,46 +540,51 @@ void Persistence::init_slider() {
 			max_death = pair.second;
 	}
 
-	slider_rep->SetMinimumValue(min_alpha);
-	slider_rep->SetMaximumValue(sqrt(max_death + 1));
-	slider_rep->SetValue(0);
-	//sliderRep->SetValue(alpha_vals[0]);
+	min_alpha_ = min_alpha;
+	max_alpha_ = max_death + 1;
 
-	//sliderRep->SetTitleText("Alpha value");
-	slider_rep->GetSliderProperty()->SetColor(1, 0, 0);//red
-	slider_rep->GetTitleProperty()->SetColor(1, 0, 0);//red
-	slider_rep->GetLabelProperty()->SetColor(1, 0, 0);//red
-	slider_rep->GetSelectedProperty()->SetColor(0, 1, 0);//green
-	slider_rep->GetTubeProperty()->SetColor(1, 1, 0);//yellow
+	//slider_rep->SetMinimumValue(min_alpha);
+	//slider_rep->SetMaximumValue(sqrt(max_death + 1));
+	//slider_rep->SetValue(0);
+	////sliderRep->SetValue(alpha_vals[0]);
+	//
+	////sliderRep->SetTitleText("Alpha value");
+	//slider_rep->GetSliderProperty()->SetColor(1, 0, 0);//red
+	//slider_rep->GetTitleProperty()->SetColor(1, 0, 0);//red
+	//slider_rep->GetLabelProperty()->SetColor(1, 0, 0);//red
+	//slider_rep->GetSelectedProperty()->SetColor(0, 1, 0);//green
+	//slider_rep->GetTubeProperty()->SetColor(1, 1, 0);//yellow
+	//
+	//// Change the color of the ends of the bar
+	//slider_rep->GetCapProperty()->SetColor(1, 1, 0);//yellow
+	//slider_rep->GetPoint1Coordinate()->SetCoordinateSystemToDisplay();
+	//slider_rep->GetPoint1Coordinate()->SetValue(40, 40);
+	//slider_rep->GetPoint2Coordinate()->SetCoordinateSystemToDisplay();
+	//slider_rep->GetPoint2Coordinate()->SetValue(740, 40);
 
-	// Change the color of the ends of the bar
-	slider_rep->GetCapProperty()->SetColor(1, 1, 0);//yellow
-	slider_rep->GetPoint1Coordinate()->SetCoordinateSystemToDisplay();
-	slider_rep->GetPoint1Coordinate()->SetValue(40, 40);
-	slider_rep->GetPoint2Coordinate()->SetCoordinateSystemToDisplay();
-	slider_rep->GetPoint2Coordinate()->SetValue(740, 40);
-
-	slider_widget_ = vtkSmartPointer<vtkSliderWidget>::New();
-	slider_widget_->SetInteractor(inter_);
-	slider_widget_->SetRepresentation(slider_rep);
-	slider_widget_->SetAnimationModeToAnimate();
-	slider_widget_->EnabledOn();
+	//slider_widget_ = vtkSmartPointer<vtkSliderWidget>::New();
+	//slider_widget_->SetInteractor(inter_);
+	//slider_widget_->SetRepresentation(slider_rep);
+	//slider_widget_->SetAnimationModeToAnimate();
+	//slider_widget_->EnabledOn();
 }
 
 void Persistence::init_widgets() {
 	init_slider();
+
+	auto axes = vtkSmartPointer<vtkAxesActor>::New();
+	auto widget = vtkSmartPointer<vtkOrientationMarkerWidget>::New();
+	widget->SetOrientationMarker(axes);
+	widget->SetInteractor(inter_);
+	widget->SetViewport(0.0, 0.0, 0.2, 0.2);
+	widget->SetEnabled(1);
+	widget->InteractiveOff();
 }
 
 void Persistence::init_slider_callback() {
-	vtkSmartPointer<vtkSliderCallback> callback = vtkSmartPointer<vtkSliderCallback>::New();
-
-	callback->p = this;
-	//callback->poly_data = complex_source_;
-	//callback->spheres = sphere_sources;
-	//callback->weighted_spheres = radii_sphere_sources_;
-	//callback->text = text_ptr;
-
-	slider_widget_->AddObserver(vtkCommand::EndInteractionEvent, callback);
+	//vtkSmartPointer<vtkSliderCallback> callback = vtkSmartPointer<vtkSliderCallback>::New();
+	//callback->p = this;
+	//slider_widget_->AddObserver(vtkCommand::EndInteractionEvent, callback);
 }
 
 void Persistence::init_update_callback()
@@ -742,55 +723,63 @@ void TW_CALL GetAlwaysRenderOnEvent(void *value, void *clientData) {
 	*static_cast<bool*>(value) = callback->AlwaysRenderOnEvent();
 }
 
+void Persistence::init_abt()
+{
+	TwBar* bar = TwNewBar("Options");
+	TwDefine(" GLOBAL help='Options bar.' ");
+
+	std::string alpha_string = " help='Change the value of alpha' min=";
+	alpha_string += std::to_string(min_alpha_);
+	alpha_string += " max=";
+	alpha_string += std::to_string(max_alpha_);
+	alpha_string += " step=0.05";
+
+	std::string display_alpha_string = " help='Change the value of display alpha' min=";
+	display_alpha_string += std::to_string(sqrt(min_alpha_));
+	display_alpha_string += " max=";
+	display_alpha_string += std::to_string(sqrt(max_alpha_));
+	display_alpha_string += " step=0.05";
+
+	TwAddVarCB(bar, "background color", TW_TYPE_COLOR3F, SetBgColor, GetBgColor, this,
+		" help='Change the color of the background' ");
+	TwAddVarCB(bar, "complex color", TW_TYPE_COLOR3F, SetColor, GetColor, this,
+		" help='Change the color of the complex' ");
+	TwAddSeparator(bar, "", "");
+	TwAddVarCB(bar, "alpha", TW_TYPE_DOUBLE, SetAlpha, GetAlpha, this,
+		alpha_string.c_str());
+	TwAddVarCB(bar, "display alpha", TW_TYPE_DOUBLE, SetDisplayAlpha, GetDisplayAlpha, this,
+		display_alpha_string.c_str());
+	TwAddSeparator(bar, "", "");
+	TwAddVarCB(bar, "sphere color", TW_TYPE_COLOR3F, SetSphColor, GetSphColor, this,
+		" help='Change the color of the radii sphere' ");
+	TwAddVarCB(bar, "sphere opacity", TW_TYPE_DOUBLE, SetSphOpacity, GetSphOpacity, this,
+		" help='Change the value of alpha' min=0 max=1 step=0.05");
+	TwAddSeparator(bar, "", "");
+	TwAddVarCB(bar, "render on event", TW_TYPE_BOOLCPP, SetAlwaysRenderOnEvent, GetAlwaysRenderOnEvent, atb_callback_,
+		" true='Always' false='If handled' help=`Specify vtkAntTweakBar's behaviour.` ");
+}
+
 void Persistence::display_complex() {
 	update_point_map(as_);
 	update_poly_data(as_);
 
 	init_win();
 	init_ren();
+	
+	inter_->Initialize();
+
 	init_actors();
 	init_widgets();
 
-	auto style = vtkSmartPointer<vtkInteractorStyleTrackballCamera>::New();
-	inter_->SetInteractorStyle(style);
-
-	ren_->ResetCamera();
-
+	init_camera();
 	init_callbacks();
 
-	vtkSmartPointer<vtkNamedColors> colors = vtkSmartPointer<vtkNamedColors>::New();
-
-	ren_->SetBackground(colors->GetColor3d("Salmon").GetData());
-
-	//inter_->Initialize();
 	
-	TwBar* bar = TwNewBar("Options");
-	TwDefine(" GLOBAL help='This example shows how to integrate AntTweakBar with VTK.' ");
+	init_abt();
 
-	TwAddVarCB(bar, "background color", TW_TYPE_COLOR3F, SetBgColor, GetBgColor, this,
-		" help='Change the color of the complex' ");
-	TwAddVarCB(bar, "complex color", TW_TYPE_COLOR3F, SetColor, GetColor, this,
-		" help='Change the color of the complex' ");
-	TwAddSeparator(bar, "", "");
-	TwAddVarCB(bar, "alpha", TW_TYPE_DOUBLE, SetAlpha, GetAlpha, this,
-		" help='Change the value of alpha' ");
-	TwAddVarCB(bar, "display alpha", TW_TYPE_DOUBLE, SetDisplayAlpha, GetDisplayAlpha, this,
-		" help='Change the value of display alpha' ");
-	TwAddSeparator(bar, "", "");
-	TwAddVarCB(bar, "sphere color", TW_TYPE_COLOR3F, SetSphColor, GetSphColor, this,
-		" help='Change the color of the complex' ");
-	TwAddVarCB(bar, "sphere opacity", TW_TYPE_DOUBLE, SetSphOpacity, GetSphOpacity, this,
-		" help='Change the value of alpha' min=0 max=1 step=0.05");
-	TwAddSeparator(bar, "", "");
-	TwAddVarCB(bar, "render on event", TW_TYPE_BOOLCPP, SetAlwaysRenderOnEvent, GetAlwaysRenderOnEvent, atb_callback_,
-		" true='Always' false='If handled' help=`Specify vtkAntTweakBar's behaviour.` ");
+	render_flag = false;
 
-	//inter_->AddObserver(vtkCommand::AnyEvent, vtkUpdateCallback);
-
-	//win_->Render();
 	inter_->Start();
-
-	//std::cout << "really?";
 }
 
 std::vector<std::pair<double, double>> Persistence::get_pairs() const{ return pairs_; }
@@ -800,3 +789,11 @@ std::vector<double> Persistence::get_alpha_values() const { return alpha_vals_; 
 std::map<Weighted_point_3, int> Persistence::get_point_map() const { return point_map_; }
 
 std::vector<Weighted_point_3> Persistence::get_weighted_points() const { return points_; }
+
+void Persistence::set_alpha(const double alpha) 
+{
+	alpha_ = alpha;
+	update_flag = true;
+}
+
+double Persistence::get_alpha() const { return alpha_; }

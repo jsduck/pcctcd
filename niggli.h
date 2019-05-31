@@ -6,6 +6,13 @@
 
 struct niggli
 {
+	/*
+	 * Reduce a given unit cell using niggli's reduction algorithm
+	 * param1: a vector containg the unit cell parameters, a, b, c, alpha, beta, gamma and volume
+	 * param2: tolerance value -- DEPRECATED --
+	 * param3: amount of attempts at reducing the unit cell, default 50
+	 * return: boolean value corresponding to the success of the reduction, true if reduction worked
+	 */
 	static bool reduce(std::vector<double> &vals, double epsilon, int max_loops = 50) {
 		using namespace boost::math;
 
@@ -18,9 +25,11 @@ struct niggli
 		const auto alpha = vals[3];
 		const auto beta = vals[4];
 		const auto gamma = vals[5];
+		const auto volume = vals[6];
 
 		// printf("INPUT:\n a: %.4f b: %.4f c: %.4f \n alpha: %.4f beta: %.4f gamma: %.4f\n", a, b, c, alpha, beta, gamma);
-
+		epsilon = 0.00001f;
+		epsilon *= std::cbrt(volume);
 
 		//--- Setting up initial values of variables
 		double A = pow(a, 2);

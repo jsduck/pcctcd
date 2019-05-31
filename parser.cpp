@@ -26,7 +26,7 @@ Parser::Parser() : p_{} {
 	unit_cell_strings_.emplace_back("_cell_angle_alpha");
 	unit_cell_strings_.emplace_back("_cell_angle_beta");
 	unit_cell_strings_.emplace_back("_cell_angle_gamma");
-	//unit_cell_strings_.push_back("_cell_volume");
+	unit_cell_strings_.emplace_back("_cell_volume");
 
 	//atom_site_strings_.emplace_back("_atom_site_label");
 	atom_site_strings_.emplace_back("_atom_site_type_symbol");
@@ -45,6 +45,7 @@ void Parser::set_options(options& p) {
 //template<typename T>
 void Parser::read(std::string filepath, Crystal& t) const {
 	CIFHandler cif;
+	// Cell extraction and ops
 	auto root = cif.copyCIFrom(cif::read_file(filepath))->blocks[0];
 	{
 		std::vector<double> v;
@@ -58,14 +59,18 @@ void Parser::read(std::string filepath, Crystal& t) const {
 		t.reduce_cell(0.0001);
 	}
 
+	// Extract loop data
 	cif::Loop* atom_loop = root.find_loop(atom_site_strings_[0]).get_loop();
 	cif::Loop* symm_loop = nullptr;
 
+	// Exctrat atom data
 	std::vector<int> atom_ids;
 	for (auto s : atom_site_strings_) {
 		atom_ids.push_back(atom_loop->find_tag(s));
 	}
 
+	// As 2 symm loops have been found in test data
+	// this part tests which one is present in the CIF file
 	int symm_pos = 0;
 	for (auto s : symm_loop_strings_) {
 		cif::Column symm_col = root.find_loop(s);
@@ -81,11 +86,11 @@ void Parser::read(std::string filepath, Crystal& t) const {
 		}
 	}
 
+	// Expected amount of atoms and symmetry ops
 	const int num_atoms = atom_loop->values.size() / atom_loop->tags.size();
 	const int num_symms = symm_loop->values.size() / symm_loop->tags.size();
 
 	mu::Parser mup;
-
 	double dx, dy, dz;
 
 	mup.DefineVar("x", &dx);
@@ -93,6 +98,7 @@ void Parser::read(std::string filepath, Crystal& t) const {
 	mup.DefineVar("z", &dz);
 
 	for (int k = 0; k < num_symms; k++) {
+		// Exact symmetry op data and erase all undesired noise such as whitespace or punctuation
 		auto symm_group = symm_loop->val(k, symm_pos);
 		std::vector<std::string> symm_eq;
 
@@ -102,13 +108,16 @@ void Parser::read(std::string filepath, Crystal& t) const {
 		boost::split(symm_eq, symm_group, boost::is_any_of(","));
 
 		for (int i = 0; i < num_atoms; i++) {
+			// Skip hydrogens if switch is enabled at runtime
 			if (!p_.show_hydrogen && atom_loop->val(i, atom_ids[0]) == "H")
 				continue;
 
+			// Extract xyz fractional coordss
 			dx = io::stod(atom_loop->val(i, atom_ids[1]));
 			dy = io::stod(atom_loop->val(i, atom_ids[2]));
 			dz = io::stod(atom_loop->val(i, atom_ids[3]));
 
+			// Interpret symmetry strings
 			Eigen::Vector3d expr_val;
 			for (int j = 0; j < symm_eq.size(); j++) {
 				try {
@@ -119,6 +128,7 @@ void Parser::read(std::string filepath, Crystal& t) const {
 				}
 			}
 
+			// Move outside atoms outside of 0-1 range back in the unit cell
 			if (p_.trim_unit_cell) {
 				for (int j = 0; j < 3; j++) {
 					if (expr_val(j) > 1)
@@ -132,6 +142,7 @@ void Parser::read(std::string filepath, Crystal& t) const {
 					expr_val(2) = 0;
 			}
 
+			// Create temporary storage for atoms based on desired dimension
 			const int max_atoms = static_cast<int>(pow(p_.extension, 3));
 			std::vector<Eigen::Vector3d> atoms;
 
@@ -139,52 +150,16 @@ void Parser::read(std::string filepath, Crystal& t) const {
 				atoms.push_back(expr_val);
 			}
 
-			// manual for now
-			if (p_.extension == 2) {
-				// x axis
-				if (p_.extend_x) {
-					atoms[1](0) += 1;
-				}
-				// y axis
-				if (p_.extend_y) {
-					atoms[2](1) += 1;
-				}
-				// x-y axis
-				if (p_.extend_x && p_.extend_y) {
-					atoms[3](0) += 1;
-					atoms[3](1) += 1;
-				}
-				if (p_.extend_z) {
-					// z axis
-					if (p_.flatten_z)
-						atoms[4](2) += 0.0001;
-					else
-						atoms[4](2) += 1;
-					// z-x axis
-					if (p_.extend_x) {
-						atoms[5](0) += 1;
-						if (p_.flatten_z)
-							atoms[5](2) += 0.0001;
-						else
-							atoms[5](2) += 1;
+			// Extension based on dimension used as input, support any number > 0
+			for (int z_i = 0; z_i < p_.extension; z_i++) {
+				for (int y_i = 0; y_i < p_.extension; y_i++) {
+					for (int x_i = 0; x_i < p_.extension; x_i++) {
+						auto index = pow(p_.extension, 2) * z_i + p_.extension * y_i + x_i;
+
+						atoms[index](0) += x_i;
+						atoms[index](1) += y_i;
+						atoms[index](2) += z_i;
 					}
-					// z-y axis
-					if (p_.extend_y) {
-						atoms[6](1) += 1;
-						if (p_.flatten_z)
-							atoms[6](2) += 0.0001;
-						else
-							atoms[6](2) += 1;
-					}
-					// z-x-y axis
-					if (p_.extend_x && p_.extend_y) {
-						atoms[7](0) += 1;
-						atoms[7](1) += 1;
-						if (p_.flatten_z)
-							atoms[7](2) += 0.0001;
-						else
-							atoms[7](2) += 1;
-					}	
 				}
 			}
 
@@ -192,6 +167,7 @@ void Parser::read(std::string filepath, Crystal& t) const {
 			for (int l = 0; l < max_atoms; l++) {
 				cf.push_back(false);
 			}
+			// If atom is position outside estimated boundries do not add it in the point cloud
 			if (p_.trim_unit_cell)
 				for (int l = 0; l < max_atoms; l++) {
 					for (int j = 0; j < 3; j++)

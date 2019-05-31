@@ -10,12 +10,22 @@
 #include <boost/iostreams/device/mapped_file.hpp>
 
 namespace io {
+	/*
+	 * Read a file and load it into heap directly
+	 * param1: string of the file path
+	 * return: string of the full content of the file
+	 */
 	static std::string read(const std::string& filepath) {
 		boost::iostreams::mapped_file mmap(filepath.c_str(), boost::iostreams::mapped_file::readonly);
 
 		return std::string(mmap.const_data());
 	}
 
+	/*
+	 * Split a string based on \newlines
+	 * param1: string with desired data to be handled
+	 * return: vector containing the separated contents of the input
+	 */
 	static std::vector<std::string> split(const std::string& file) {
 		std::istringstream input(file);
 		std::vector<std::string> temp;
@@ -27,6 +37,11 @@ namespace io {
 		return temp;
 	}
 
+	/*
+	 * Read a an entire file sequentially
+	 * param1: string of the file path
+	 * return: string of the entire file contents
+	 */
 	static std::string read_sequential(const std::string& filepath) {
 		std::ifstream infile{ filepath };
 
@@ -39,6 +54,12 @@ namespace io {
 		return file_contents;
 	}
 
+	/*
+	 * Split a string based on given delimitators
+	 * param1: string to be tokenised
+	 * param2: string containging delimitators e.g. "?!@"
+	 * return: std vector containing the tokenized input
+	 */
 	static std::vector<std::string> tokenize(const std::string line, const std::string& delim) {
 		std::vector<std::string> token;
 		auto temp = line;
@@ -59,6 +80,11 @@ namespace io {
 		return token;
 	}
 
+	/*
+	 * Conversion of string to double value using streams
+	 * param1: string to be converted
+	 * return: double value
+	 */
 	static double stod(std::string str) {
 		std::istringstream i(str);
 		double x;

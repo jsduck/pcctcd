@@ -1,11 +1,6 @@
-/*
- * Copyright (c) 2017 Lutz Hofmann.	
- * Licensed under the MIT License. See LICENSE file in the project root for full license information.  
- */
+#pragma once
 
-#ifndef VTKANTTWEAKBAR_HPP
-#define VTKANTTWEAKBAR_HPP
-
+//-- VTK Includes
 #include <vtkCommand.h>
 #include <vtkRenderWindow.h>
 #include <vtkRenderWindowInteractor.h>
@@ -31,5 +26,3 @@ private:
 	vtkRenderWindowInteractor* interactor_;
 	vtkInteractorStyle* interactorStyle_;
 };
-
-#endif

@@ -10,10 +10,20 @@
 #define PI boost::math::constants::pi<double>()
 
 namespace math {
+	/*
+	 * Mulitply 3 given values
+	 * param1-3: a double value
+	 * return: product of the multiplication of the given input
+	 */
 	inline double mult3(double x, double y, double z) {
 		return x * y * z;
 	}
 
+	/*
+	 * Convert a unit cell from fractional to orthogonal coordinates
+	 * param1: vector containing the unit cell lenghts and angles
+	 * return: a matrix represeting the converted orthogonal space
+	 */
 	inline Eigen::Matrix3d fr2cart(std::vector<double> vals) {
 		// a, b, c, alpha, beta, gamma in this order from 0 to 5
 		Eigen::Matrix3d nm(3, 3);

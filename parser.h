@@ -12,6 +12,9 @@
 class Parser
 {
 public:
+	/*
+	 * Structure holding parameters set at run-time
+	 */
 	struct options
 	{
 		bool show_hydrogen,
@@ -25,11 +28,23 @@ public:
 		unsigned int extension;
 	};
 public:
+	/*
+	 * Default constructor
+	 */
 	Parser();
 
 	//template<typename T>
+	/*
+	 * Read and parse a given file
+	 * param1: string of the filepath
+	 * param2: a crystal object
+	 */
 	void read(std::string filepath, Crystal& t) const;
 
+	/*
+	 * Updates the parser options
+	 * param1: options structure containing the new values
+	 */
 	void set_options(options& p);
 
 private:
